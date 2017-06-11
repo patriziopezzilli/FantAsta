@@ -33,7 +33,7 @@ class Player :NSObject, NSCoding{
         self.quotation = quotation
         self.role = role
         self.marked = marked
-        self.image = UIImage(named: "no_avatar")
+        self.image = UIImage(named: "")
     }
     
     func markPlayer(){

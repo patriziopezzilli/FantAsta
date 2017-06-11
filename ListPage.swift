@@ -8,6 +8,8 @@
 
 import UIKit
 
+var listOption:String = "alf"
+
 class ListPage: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDelegate, UITableViewDataSource{
     
     @available(iOS 2.0, *)
@@ -23,6 +25,8 @@ class ListPage: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, 
     
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var listaNavBar: UINavigationItem!
 
     
     override func viewDidLoad() {
@@ -38,6 +42,48 @@ class ListPage: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, 
         tableView.delegate = self
         tableView.dataSource = self
         self.content = portieri
+        
+        listaNavBar.title = "Ordine Alfabetico"
+        
+        // swipe init
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.view.addGestureRecognizer(swipeLeft)
+    }
+    
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                listOption = "alf"
+                listAndLoadSortedBy()
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+                listOption = "quo"
+                listAndLoadSortedBy()
+            default: break
+                
+            }
+        }
+    }
+    
+    func listAndLoadSortedBy(){
+        if(listOption == "alf"){
+            self.content.sort { $0.name < $1.name }
+            listaNavBar.title = "Ordine Alfabetico"
+            tableView.reloadData()
+        }else{
+            self.content.sort { Int.init($0.quotation)! < Int.init($1.quotation)! }
+            listaNavBar.title = "Ordine di Quotazione"
+            tableView.reloadData()
+        }
     }
     
     private func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -82,23 +128,23 @@ class ListPage: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, 
         switch first.pickerDataSource[row] {
         case "Portieri":
             self.content = portieri
-            tableView.reloadData()
+            listAndLoadSortedBy()
             pickerView.reloadAllComponents()
         case "Difensori":
             self.content = difensori
-            tableView.reloadData()
+            listAndLoadSortedBy()
             pickerView.reloadAllComponents()
         case "Centrocampisti":
             self.content = centrocampisti
-            tableView.reloadData()
+            listAndLoadSortedBy()
             pickerView.reloadAllComponents()
         case "Attaccanti":
             self.content = attaccanti
-            tableView.reloadData()
+            listAndLoadSortedBy()
             pickerView.reloadAllComponents()
         default:
             self.content = portieri
-            tableView.reloadData()
+            listAndLoadSortedBy()
             pickerView.reloadAllComponents()
         }
         

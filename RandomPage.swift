@@ -19,6 +19,11 @@ var available:Bool = false
 var sezione:String = ""
 var lastPlayer:Player? = nil
 
+
+// player storage
+var previousPlayer:Player? = nil
+var nextPlayer:Player? = nil
+
 extension UIView {
     func fadeTransition(_ duration:CFTimeInterval) {
         let animation = CATransition()
@@ -52,6 +57,11 @@ class RandomPage: UIViewController{
     @IBOutlet weak var star4: UIImageView!
     @IBOutlet weak var star5: UIImageView!
     
+    // slider
+    @IBOutlet weak var nextImagePlayer: UIImageView!
+    @IBOutlet weak var lastImagePlayer: UIImageView!
+    
+    
     @IBOutlet weak var wallpaperView: UIImageView!
     
     var first: Homepage = Homepage(nibName: nil, bundle: nil)
@@ -59,12 +69,265 @@ class RandomPage: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // swipe init
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.view.addGestureRecognizer(swipeLeft)
+        
         self.view.sendSubview(toBack: image)
+        
+        // Wallpaper alpha view
+        wallpaperView.alpha = 0.5
+        lastImagePlayer.alpha = 0.5
+        nextImagePlayer.alpha = 0.5
+        
         self.view.sendSubview(toBack: wallpaperView)
-        self.view.bringSubview(toFront: cardImage);
+        self.view.bringSubview(toFront: cardImage)
+        self.view.bringSubview(toFront: lastImagePlayer)
+        self.view.bringSubview(toFront: nextImagePlayer)
         navBar.title = navBarTitle
         
         click("c")
+    }
+    
+    
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                
+                // I have to put the left  player, and set actual as next and previous null
+                if(previousPlayer != nil){
+                    // Check previous
+                    nextPlayer = lastPlayer
+                    changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+                    
+                    let tempPlayer:Player = previousPlayer!
+                    
+                    // Save into lastPlayer information
+                    lastPlayer = tempPlayer
+                    
+                    // Extract next
+                    previousPlayer = nil
+                    lastImagePlayer.image = UIImage.init(named: "")
+                    
+                    playerName = tempPlayer.name
+                    
+                    self.view.bringSubview(toFront: randomName);
+                    self.view.bringSubview(toFront: randomQuotation);
+                    self.randomTeam.text = tempPlayer.team
+                    self.randomQuotation.text = tempPlayer.quotation
+                    self.randomName.text = tempPlayer.name
+                    self.role = tempPlayer.role
+                    
+                    switch tempPlayer.team {
+                    case "Atalanta":
+                        //image.image = UIImage(named:"Atalanta")
+                        changeImageWithAnimation(squadra: "Atalanta")
+                    case "Cagliari":
+                        //image.image = UIImage(named:"Cagliari")
+                        changeImageWithAnimation(squadra: "Cagliari")
+                    case "Chievo":
+                        //image.image = UIImage(named:"Chievo")
+                        changeImageWithAnimation(squadra: "Chievo")
+                    case "Crotone":
+                        // image.image = UIImage(named:"Crotone")
+                        changeImageWithAnimation(squadra: "Crotone")
+                    case "Empoli":
+                        // image.image = UIImage(named:"Empoli")
+                        changeImageWithAnimation(squadra: "Empoli")
+                    case "Fiorentina":
+                        // image.image = UIImage(named:"Fiorentina")
+                        changeImageWithAnimation(squadra: "Fiorentina")
+                    case "Genoa":
+                        // image.image = UIImage(named:"Genoa")
+                        changeImageWithAnimation(squadra: "Genoa")
+                    case "Inter":
+                        // image.image = UIImage(named:"Inter")
+                        changeImageWithAnimation(squadra: "Inter")
+                    case "Juventus":
+                        // image.image = UIImage(named:"Juventus")
+                        changeImageWithAnimation(squadra: "Juventus")
+                    case "Lazio":
+                        //image.image = UIImage(named:"Lazio")
+                        changeImageWithAnimation(squadra: "Lazio")
+                    case "Milan":
+                        // image.image = UIImage(named:"Milan")
+                        changeImageWithAnimation(squadra: "Milan")
+                    case "Napoli":
+                        // image.image = UIImage(named:"Napoli")
+                        changeImageWithAnimation(squadra: "Napoli")
+                    case "Palermo":
+                        // image.image = UIImage(named:"Palermo")
+                        changeImageWithAnimation(squadra: "Palermo")
+                    case "Roma":
+                        //  image.image = UIImage(named:"Roma")
+                        changeImageWithAnimation(squadra: "Roma")
+                    case "Sampdoria":
+                        //image.image = UIImage(named:"Sampdoria")
+                        changeImageWithAnimation(squadra: "Sampdoria")
+                    case "Sassuolo":
+                        // image.image = UIImage(named:"Sassuolo")
+                        changeImageWithAnimation(squadra: "Sassuolo")
+                    case "Torino":
+                        // image.image = UIImage(named:"Torino")
+                        changeImageWithAnimation(squadra: "Torino")
+                    case "Udinese":
+                        // image.image = UIImage(named:"Udinese")
+                        changeImageWithAnimation(squadra: "Udinese")
+                    default:
+                        // image.image = UIImage(named: "no_image")
+                        changeImageWithAnimation(squadra: "no_image")
+                    }
+                    
+                    self.star1.image = UIImage(named:"star")
+                    self.view.bringSubview(toFront: star1);
+                    let myNumber = Int(tempPlayer.quotation)
+                    
+                    if(myNumber!>2){
+                        self.star2.image = UIImage(named:"star")
+                        self.view.bringSubview(toFront: star2);
+                    }
+                    if(myNumber!>7){
+                        self.star3.image = UIImage(named:"star")
+                        self.view.bringSubview(toFront: star3);
+                    }
+                    if(myNumber!>10){
+                        self.star4.image = UIImage(named:"star")
+                        self.view.bringSubview(toFront: star4);
+                    }
+                    if(myNumber!>20){
+                        self.star5.image = UIImage(named:"star")
+                        self.view.bringSubview(toFront: star5);
+                    }
+                    
+                    changeCardWithAnimation(giocatore: tempPlayer)
+
+                }
+            
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped left")
+                // I have to put the right player, extract new one for next and set actual as previous
+                // Check previous
+                previousPlayer = lastPlayer
+                changeCardPreviousNextWithAnimation(giocatore: previousPlayer!, choose: "previous")
+                
+                let tempPlayer:Player = nextPlayer!
+                
+                // Save into lastPlayer information
+                lastPlayer = nextPlayer
+                
+                // Extract next
+                nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
+                changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+                
+                playerName = tempPlayer.name
+                
+                self.view.bringSubview(toFront: randomName);
+                self.view.bringSubview(toFront: randomQuotation);
+                self.randomTeam.text = tempPlayer.team
+                self.randomQuotation.text = tempPlayer.quotation
+                self.randomName.text = tempPlayer.name
+                self.role = tempPlayer.role
+                
+                switch tempPlayer.team {
+                case "Atalanta":
+                    //image.image = UIImage(named:"Atalanta")
+                    changeImageWithAnimation(squadra: "Atalanta")
+                case "Cagliari":
+                    //image.image = UIImage(named:"Cagliari")
+                    changeImageWithAnimation(squadra: "Cagliari")
+                case "Chievo":
+                    //image.image = UIImage(named:"Chievo")
+                    changeImageWithAnimation(squadra: "Chievo")
+                case "Crotone":
+                    // image.image = UIImage(named:"Crotone")
+                    changeImageWithAnimation(squadra: "Crotone")
+                case "Empoli":
+                    // image.image = UIImage(named:"Empoli")
+                    changeImageWithAnimation(squadra: "Empoli")
+                case "Fiorentina":
+                    // image.image = UIImage(named:"Fiorentina")
+                    changeImageWithAnimation(squadra: "Fiorentina")
+                case "Genoa":
+                    // image.image = UIImage(named:"Genoa")
+                    changeImageWithAnimation(squadra: "Genoa")
+                case "Inter":
+                    // image.image = UIImage(named:"Inter")
+                    changeImageWithAnimation(squadra: "Inter")
+                case "Juventus":
+                    // image.image = UIImage(named:"Juventus")
+                    changeImageWithAnimation(squadra: "Juventus")
+                case "Lazio":
+                    //image.image = UIImage(named:"Lazio")
+                    changeImageWithAnimation(squadra: "Lazio")
+                case "Milan":
+                    // image.image = UIImage(named:"Milan")
+                    changeImageWithAnimation(squadra: "Milan")
+                case "Napoli":
+                    // image.image = UIImage(named:"Napoli")
+                    changeImageWithAnimation(squadra: "Napoli")
+                case "Palermo":
+                    // image.image = UIImage(named:"Palermo")
+                    changeImageWithAnimation(squadra: "Palermo")
+                case "Roma":
+                    //  image.image = UIImage(named:"Roma")
+                    changeImageWithAnimation(squadra: "Roma")
+                case "Sampdoria":
+                    //image.image = UIImage(named:"Sampdoria")
+                    changeImageWithAnimation(squadra: "Sampdoria")
+                case "Sassuolo":
+                    // image.image = UIImage(named:"Sassuolo")
+                    changeImageWithAnimation(squadra: "Sassuolo")
+                case "Torino":
+                    // image.image = UIImage(named:"Torino")
+                    changeImageWithAnimation(squadra: "Torino")
+                case "Udinese":
+                    // image.image = UIImage(named:"Udinese")
+                    changeImageWithAnimation(squadra: "Udinese")
+                default:
+                    // image.image = UIImage(named: "no_image")
+                    changeImageWithAnimation(squadra: "no_image")
+                }
+                
+                self.star1.image = UIImage(named:"star")
+                self.view.bringSubview(toFront: star1);
+                let myNumber = Int(tempPlayer.quotation)
+                
+                if(myNumber!>2){
+                    self.star2.image = UIImage(named:"star")
+                    self.view.bringSubview(toFront: star2);
+                }
+                if(myNumber!>7){
+                    self.star3.image = UIImage(named:"star")
+                    self.view.bringSubview(toFront: star3);
+                }
+                if(myNumber!>10){
+                    self.star4.image = UIImage(named:"star")
+                    self.view.bringSubview(toFront: star4);
+                }
+                if(myNumber!>20){
+                    self.star5.image = UIImage(named:"star")
+                    self.view.bringSubview(toFront: star5);
+                }
+                
+                changeCardWithAnimation(giocatore: tempPlayer)
+                
+
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -157,6 +420,100 @@ class RandomPage: UIViewController{
          }
     }
     
+    func turnNext(tempPlayer:Player){
+        playerName = tempPlayer.name
+        
+        self.view.bringSubview(toFront: randomName);
+        self.view.bringSubview(toFront: randomQuotation);
+        self.randomTeam.text = tempPlayer.team
+        self.randomQuotation.text = tempPlayer.quotation
+        self.randomName.text = tempPlayer.name
+        self.role = tempPlayer.role
+        
+        switch tempPlayer.team {
+        case "Atalanta":
+            //image.image = UIImage(named:"Atalanta")
+            changeImageWithAnimation(squadra: "Atalanta")
+        case "Cagliari":
+            //image.image = UIImage(named:"Cagliari")
+            changeImageWithAnimation(squadra: "Cagliari")
+        case "Chievo":
+            //image.image = UIImage(named:"Chievo")
+            changeImageWithAnimation(squadra: "Chievo")
+        case "Crotone":
+            // image.image = UIImage(named:"Crotone")
+            changeImageWithAnimation(squadra: "Crotone")
+        case "Empoli":
+            // image.image = UIImage(named:"Empoli")
+            changeImageWithAnimation(squadra: "Empoli")
+        case "Fiorentina":
+            // image.image = UIImage(named:"Fiorentina")
+            changeImageWithAnimation(squadra: "Fiorentina")
+        case "Genoa":
+            // image.image = UIImage(named:"Genoa")
+            changeImageWithAnimation(squadra: "Genoa")
+        case "Inter":
+            // image.image = UIImage(named:"Inter")
+            changeImageWithAnimation(squadra: "Inter")
+        case "Juventus":
+            // image.image = UIImage(named:"Juventus")
+            changeImageWithAnimation(squadra: "Juventus")
+        case "Lazio":
+            //image.image = UIImage(named:"Lazio")
+            changeImageWithAnimation(squadra: "Lazio")
+        case "Milan":
+            // image.image = UIImage(named:"Milan")
+            changeImageWithAnimation(squadra: "Milan")
+        case "Napoli":
+            // image.image = UIImage(named:"Napoli")
+            changeImageWithAnimation(squadra: "Napoli")
+        case "Palermo":
+            // image.image = UIImage(named:"Palermo")
+            changeImageWithAnimation(squadra: "Palermo")
+        case "Roma":
+            //  image.image = UIImage(named:"Roma")
+            changeImageWithAnimation(squadra: "Roma")
+        case "Sampdoria":
+            //image.image = UIImage(named:"Sampdoria")
+            changeImageWithAnimation(squadra: "Sampdoria")
+        case "Sassuolo":
+            // image.image = UIImage(named:"Sassuolo")
+            changeImageWithAnimation(squadra: "Sassuolo")
+        case "Torino":
+            // image.image = UIImage(named:"Torino")
+            changeImageWithAnimation(squadra: "Torino")
+        case "Udinese":
+            // image.image = UIImage(named:"Udinese")
+            changeImageWithAnimation(squadra: "Udinese")
+        default:
+            // image.image = UIImage(named: "no_image")
+            changeImageWithAnimation(squadra: "no_image")
+        }
+        
+        self.star1.image = UIImage(named:"star")
+        self.view.bringSubview(toFront: star1);
+        let myNumber = Int(tempPlayer.quotation)
+        
+        if(myNumber!>2){
+            self.star2.image = UIImage(named:"star")
+            self.view.bringSubview(toFront: star2);
+        }
+        if(myNumber!>7){
+            self.star3.image = UIImage(named:"star")
+            self.view.bringSubview(toFront: star3);
+        }
+        if(myNumber!>10){
+            self.star4.image = UIImage(named:"star")
+            self.view.bringSubview(toFront: star4);
+        }
+        if(myNumber!>20){
+            self.star5.image = UIImage(named:"star")
+            self.view.bringSubview(toFront: star5);
+        }
+        
+        changeCardWithAnimation(giocatore: tempPlayer)
+    }
+    
     
     @IBAction func click(_ sender: Any) {
         available = false
@@ -178,32 +535,51 @@ class RandomPage: UIViewController{
         self.star4.image = nil
         self.star5.image = nil
         
-        let tempPlayer:Player = extractRandomPlayer()
-        
-        // Save into lastPlayer information
-        lastPlayer = tempPlayer
-        
-        playerName = tempPlayer.name
-        
-        // round and test
-        //      self.cardImage.image = UIImage(named: "test_avatar")
-        self.cardImage.image = UIImage(named: "no_avatar")
-        self.cardImage.image = cropToBounds(image: self.cardImage.image!, width: 117, height: 117)
-        self.cardImage.layer.borderWidth = 2.5
-        self.cardImage.layer.masksToBounds = false
-        self.cardImage.layer.borderColor = UIColor.white.cgColor
-        self.cardImage.layer.cornerRadius = self.cardImage.frame.width / 2
-        self.cardImage.clipsToBounds = true
-        // END round and test
-        
+        if(nextPlayer != nil){
+            turnNext(tempPlayer: nextPlayer!)
+            
+            previousPlayer = nil
+            lastImagePlayer.image = UIImage.init(named: "")
+           
+            let tempPlayer:Player = extractRandomPlayer(actualPlayer: lastPlayer!.name)
+            
+            // Save into lastPlayer information
+            lastPlayer = tempPlayer
+            
+            // Extract next
+            nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
+            changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+
+        }else{
+            // Check previous
+            if(lastPlayer != nil){
+                previousPlayer = lastPlayer
+                changeCardPreviousNextWithAnimation(giocatore: previousPlayer!, choose: "previous")
+            }
+            
+            var tempPlayer:Player? = extractRandomPlayer(actualPlayer: "")
+            if(lastPlayer !=  nil){
+                 tempPlayer = extractRandomPlayer(actualPlayer: lastPlayer!.name)
+            }
+            
+            // Save into lastPlayer information
+            lastPlayer = tempPlayer
+            
+            // Extract next
+            nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
+            changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+            
+            playerName = (tempPlayer?.name)!
+            
+            
             self.view.bringSubview(toFront: randomName);
             self.view.bringSubview(toFront: randomQuotation);
-            self.randomTeam.text = tempPlayer.team
-            self.randomQuotation.text = tempPlayer.quotation
-            self.randomName.text = tempPlayer.name
-            self.role = tempPlayer.role
+            self.randomTeam.text = tempPlayer?.team
+            self.randomQuotation.text = tempPlayer?.quotation
+            self.randomName.text = tempPlayer?.name
+            self.role = tempPlayer!.role
             
-            switch tempPlayer.team {
+            switch tempPlayer!.team {
             case "Atalanta":
                 //image.image = UIImage(named:"Atalanta")
                 changeImageWithAnimation(squadra: "Atalanta")
@@ -214,58 +590,58 @@ class RandomPage: UIViewController{
                 //image.image = UIImage(named:"Chievo")
                 changeImageWithAnimation(squadra: "Chievo")
             case "Crotone":
-               // image.image = UIImage(named:"Crotone")
+                // image.image = UIImage(named:"Crotone")
                 changeImageWithAnimation(squadra: "Crotone")
             case "Empoli":
-               // image.image = UIImage(named:"Empoli")
+                // image.image = UIImage(named:"Empoli")
                 changeImageWithAnimation(squadra: "Empoli")
             case "Fiorentina":
-               // image.image = UIImage(named:"Fiorentina")
+                // image.image = UIImage(named:"Fiorentina")
                 changeImageWithAnimation(squadra: "Fiorentina")
             case "Genoa":
-               // image.image = UIImage(named:"Genoa")
+                // image.image = UIImage(named:"Genoa")
                 changeImageWithAnimation(squadra: "Genoa")
             case "Inter":
-               // image.image = UIImage(named:"Inter")
+                // image.image = UIImage(named:"Inter")
                 changeImageWithAnimation(squadra: "Inter")
             case "Juventus":
-               // image.image = UIImage(named:"Juventus")
+                // image.image = UIImage(named:"Juventus")
                 changeImageWithAnimation(squadra: "Juventus")
             case "Lazio":
                 //image.image = UIImage(named:"Lazio")
                 changeImageWithAnimation(squadra: "Lazio")
             case "Milan":
-               // image.image = UIImage(named:"Milan")
+                // image.image = UIImage(named:"Milan")
                 changeImageWithAnimation(squadra: "Milan")
             case "Napoli":
-               // image.image = UIImage(named:"Napoli")
+                // image.image = UIImage(named:"Napoli")
                 changeImageWithAnimation(squadra: "Napoli")
             case "Palermo":
-               // image.image = UIImage(named:"Palermo")
+                // image.image = UIImage(named:"Palermo")
                 changeImageWithAnimation(squadra: "Palermo")
             case "Roma":
-              //  image.image = UIImage(named:"Roma")
+                //  image.image = UIImage(named:"Roma")
                 changeImageWithAnimation(squadra: "Roma")
             case "Sampdoria":
                 //image.image = UIImage(named:"Sampdoria")
                 changeImageWithAnimation(squadra: "Sampdoria")
             case "Sassuolo":
-               // image.image = UIImage(named:"Sassuolo")
+                // image.image = UIImage(named:"Sassuolo")
                 changeImageWithAnimation(squadra: "Sassuolo")
             case "Torino":
-               // image.image = UIImage(named:"Torino")
+                // image.image = UIImage(named:"Torino")
                 changeImageWithAnimation(squadra: "Torino")
             case "Udinese":
-               // image.image = UIImage(named:"Udinese")
+                // image.image = UIImage(named:"Udinese")
                 changeImageWithAnimation(squadra: "Udinese")
             default:
-               // image.image = UIImage(named: "no_image")
+                // image.image = UIImage(named: "no_image")
                 changeImageWithAnimation(squadra: "no_image")
             }
             
             self.star1.image = UIImage(named:"star")
             self.view.bringSubview(toFront: star1);
-            let myNumber = Int(tempPlayer.quotation)
+            let myNumber = Int(tempPlayer!.quotation)
             
             if(myNumber!>2){
                 self.star2.image = UIImage(named:"star")
@@ -283,8 +659,9 @@ class RandomPage: UIViewController{
                 self.star5.image = UIImage(named:"star")
                 self.view.bringSubview(toFront: star5);
             }
-       
-        changeCardWithAnimation(giocatore: tempPlayer)
+            
+            changeCardWithAnimation(giocatore: tempPlayer!)
+        }
     }
     
     func appear(){
@@ -360,23 +737,16 @@ class RandomPage: UIViewController{
             }else{
                 if(lastPlayer?.role != tempRole){
                     lastPlayer = nil
+                    previousPlayer = nil
+                    nextPlayer = nil
+                    
+                    lastImagePlayer.image = UIImage.init(named: "")
                 }
                 
                 if(lastPlayer != nil){
                     if(lastPlayer?.marked == false){
                         // Load this player information
                         playerName = lastPlayer!.name
-                        
-                        // round and test
-                        //      self.cardImage.image = UIImage(named: "test_avatar")
-                        self.cardImage.image = UIImage(named: "no_avatar")
-                        self.cardImage.image = cropToBounds(image: self.cardImage.image!, width: 117, height: 117)
-                        self.cardImage.layer.borderWidth = 2.5
-                        self.cardImage.layer.masksToBounds = false
-                        self.cardImage.layer.borderColor = UIColor.white.cgColor
-                        self.cardImage.layer.cornerRadius = self.cardImage.frame.width / 2
-                        self.cardImage.clipsToBounds = true
-                        // END round and test
                         
                         self.view.bringSubview(toFront: randomName);
                         self.view.bringSubview(toFront: randomQuotation);
@@ -468,6 +838,10 @@ class RandomPage: UIViewController{
                         
                         changeCardWithAnimation(giocatore: lastPlayer!)
                         
+                        // Extract next
+                        nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
+                        changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+                        
                     }else{
                         // Load new one
                         click("c")
@@ -507,22 +881,57 @@ class RandomPage: UIViewController{
         self.cardImage.layer.masksToBounds = false
         self.cardImage.layer.borderColor = UIColor.white.cgColor
         self.cardImage.layer.cornerRadius = self.cardImage.frame.width / 2
-                            self.cardImage.clipsToBounds = true},
+        self.cardImage.clipsToBounds = true
+                            
+        },
                           completion: nil)
     }
     
-    func extractRandomPlayer()->Player{
+    func changeCardPreviousNextWithAnimation(giocatore:Player,choose:String){
+        if(choose == "next"){
+        UIView.transition(with: nextImagePlayer,
+                          duration: 0.2,
+                          options: .transitionCrossDissolve,
+                          animations: {
+                            self.nextImagePlayer.image = giocatore.image
+                            self.nextImagePlayer.image = cropToBounds(image: self.nextImagePlayer.image!, width: 117, height: 117)
+                            self.nextImagePlayer.layer.borderWidth = 2.5
+                            self.nextImagePlayer.layer.masksToBounds = false
+                            self.nextImagePlayer.layer.borderColor = UIColor.white.cgColor
+                            self.nextImagePlayer.layer.cornerRadius = self.nextImagePlayer.frame.width / 2
+                            self.nextImagePlayer.clipsToBounds = true
+                            },
+                          completion: nil)
+        }else{
+            UIView.transition(with: lastImagePlayer,
+                              duration: 0.2,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                                self.lastImagePlayer.image = giocatore.image
+                                self.lastImagePlayer.image = cropToBounds(image: self.lastImagePlayer.image!, width: 117, height: 117)
+                                self.lastImagePlayer.layer.borderWidth = 2.5
+                                self.lastImagePlayer.layer.masksToBounds = false
+                                self.lastImagePlayer.layer.borderColor = UIColor.white.cgColor
+                                self.lastImagePlayer.layer.cornerRadius = self.lastImagePlayer.frame.width / 2
+                                self.lastImagePlayer.clipsToBounds = true
+                                },
+                              completion: nil)
+        }
+    }
+
+    
+    func extractRandomPlayer(actualPlayer:String)->Player{
         let playerstemp:[Player] = randomContent
         let randomIndex = Int(arc4random_uniform(UInt32(playerstemp.count)))
         let tempPlayer:Player = playerstemp[randomIndex]
         
         
         print("I'm checking that " + tempPlayer.name + " is in the list : " + extracted.joined(separator: ", "))
-        if(tempPlayer.marked == false && !extracted.contains(tempPlayer.name)){
+        if(tempPlayer.marked == false && !extracted.contains(tempPlayer.name) && (actualPlayer != tempPlayer.name)){
             return tempPlayer;
         }else{
             print("Is in the list! skip to someone else...")
-            return extractRandomPlayer()
+            return extractRandomPlayer(actualPlayer: actualPlayer)
         }
     }
 }

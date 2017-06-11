@@ -16,8 +16,6 @@ class CSVScanner {
     
     class func runFunctionOnRowsFromFile(data:String, theColumnNames:Array<String>, withFileName theFileName:String, withFunction theFunction:(Dictionary<String, String>)->()) {
         
-        if let strBundle = Bundle.main.path(forResource: theFileName, ofType: "csv") {
-            
             let encodingError:NSError? = nil
             var encoding:String.Encoding = String.Encoding.utf8
             let url = NSURL(string: "http://fantastadata.altervista.org/"+data+"/"+theFileName+".csv")
@@ -52,14 +50,6 @@ class CSVScanner {
                     }else{
                     }
                 }
-            }else{
-                CSVScanner.debug(string: "Unable to load csv file from path: \(strBundle)")
-                
-                if let errorString = encodingError?.description {
-                    
-                    CSVScanner.debug(string: "Received encoding error: \(errorString)")
-                }
-            }
         }else{
             CSVScanner.debug(string: "Unable to get path to csv file: \(theFileName).csv")
         }
