@@ -188,6 +188,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             let update:String = checkIfUpdateIsAvailable()
             print(update)
             
+            markDataLoaded()
         }
     }
     
@@ -195,6 +196,9 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // mark visited app
+        appOpened()
         
       //  self.signalButton.
         self.resetDatiButton.isEnabled = false
@@ -710,6 +714,43 @@ func isConnectedToNetwork() -> Bool {
     return ret
     
 }
+
+func appOpened() {
+    
+    let url: URL = URL(string: "http://fantastadata.altervista.org/script/visitatori_service.php")!
+    let defaultSession = Foundation.URLSession(configuration: URLSessionConfiguration.default)
+    
+    let task = defaultSession.dataTask(with: url) { (data, response, error) in
+        
+        if error != nil {
+            print("Failed to download data")
+        }else {
+            print("Data downloaded")
+        }
+        
+    }
+    
+    task.resume()
+}
+
+func markDataLoaded() {
+    
+    let url: URL = URL(string: "http://fantastadata.altervista.org/script/visitatori_utilizzatori_service.php")!
+    let defaultSession = Foundation.URLSession(configuration: URLSessionConfiguration.default)
+    
+    let task = defaultSession.dataTask(with: url) { (data, response, error) in
+        
+        if error != nil {
+            print("Failed to download data")
+        }else {
+            print("Data downloaded")
+        }
+        
+    }
+    
+    task.resume()
+}
+
 
 extension UIColor {
     convenience init(hex: String) {

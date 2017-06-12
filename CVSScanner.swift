@@ -18,7 +18,7 @@ class CSVScanner {
         
             let encodingError:NSError? = nil
             var encoding:String.Encoding = String.Encoding.utf8
-            let url = NSURL(string: "http://fantastadata.altervista.org/"+data+"/"+theFileName+".csv")
+            let url = NSURL(string: "http://fantastadata.altervista.org/data/"+data+"/"+theFileName+".csv")
          //   try! String(contentsOf:messageURL as! URL, usedEncoding:&encoding)
            // if let fileObject = try? String(contentsOfFile: strBundle, encoding: String.Encoding.utf8){
             if let fileObject = try? String(contentsOf:url as! URL, usedEncoding:&encoding)
