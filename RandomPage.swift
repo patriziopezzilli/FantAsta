@@ -101,7 +101,7 @@ class RandomPage: UIViewController{
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
                 print("Swiped right")
-                
+                if(remains > 1){
                 // I have to put the left  player, and set actual as next and previous null
                 if(previousPlayer != nil){
                     // Check previous
@@ -210,11 +210,12 @@ class RandomPage: UIViewController{
                     changeCardWithAnimation(giocatore: tempPlayer)
 
                 }
-            
+                }
             case UISwipeGestureRecognizerDirection.down:
                 print("Swiped down")
             case UISwipeGestureRecognizerDirection.left:
                 print("Swiped left")
+                if(remains > 1){
                 // I have to put the right player, extract new one for next and set actual as previous
                 // Check previous
                 previousPlayer = lastPlayer
@@ -226,9 +227,13 @@ class RandomPage: UIViewController{
                 lastPlayer = nextPlayer
                 
                 // Extract next
-                nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
-                changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
-                
+                if(remains > 1){
+                    nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
+                    changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+                }else{
+                    nextPlayer = nil
+                    lastImagePlayer.image = UIImage.init(named: "")
+                }
                 playerName = tempPlayer.name
                 
                 self.view.bringSubview(toFront: randomName);
@@ -321,7 +326,7 @@ class RandomPage: UIViewController{
                 
                 changeCardWithAnimation(giocatore: tempPlayer)
                 
-
+                }
             case UISwipeGestureRecognizerDirection.up:
                 print("Swiped up")
             default:
@@ -414,6 +419,24 @@ class RandomPage: UIViewController{
             
             self.assignButton.isEnabled = false
             self.skipButton.isEnabled = false
+            
+            nextImagePlayer.image = UIImage.init(named: "")
+            
+            UIView.transition(with: cardImage,
+                              duration: 0.2,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                                self.cardImage.image = UIImage.init(named: "completed")
+                                self.cardImage.image = cropToBounds(image: self.cardImage.image!, width: 117, height: 117)
+                                self.cardImage.layer.borderWidth = 2.5
+                                self.cardImage.layer.masksToBounds = false
+                                self.cardImage.layer.borderColor = UIColor.white.cgColor
+                                self.cardImage.layer.cornerRadius = self.cardImage.frame.width / 2
+                                self.cardImage.clipsToBounds = true
+                                
+            },
+                              completion: nil)
+
 
         }else{
             click("me")
@@ -540,16 +563,20 @@ class RandomPage: UIViewController{
             
             previousPlayer = nil
             lastImagePlayer.image = UIImage.init(named: "")
-           
+            
+            if(remains > 1){
             let tempPlayer:Player = extractRandomPlayer(actualPlayer: lastPlayer!.name)
             
             // Save into lastPlayer information
             lastPlayer = tempPlayer
             
             // Extract next
-            nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
-            changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
-
+                nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
+                changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+            }else{
+                nextPlayer = nil
+                lastImagePlayer.image = UIImage.init(named: "")
+            }
         }else{
             // Check previous
             if(lastPlayer != nil){
@@ -566,8 +593,13 @@ class RandomPage: UIViewController{
             lastPlayer = tempPlayer
             
             // Extract next
-            nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
-            changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+            if(remains > 1){
+                nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
+                changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+            }else{
+                nextPlayer = nil
+                lastImagePlayer.image = UIImage.init(named: "")
+            }
             
             playerName = (tempPlayer?.name)!
             
@@ -839,8 +871,13 @@ class RandomPage: UIViewController{
                         changeCardWithAnimation(giocatore: lastPlayer!)
                         
                         // Extract next
-                        nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
-                        changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+                        if(remains > 1){
+                            nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
+                            changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+                        }else{
+                            nextPlayer = nil
+                            lastImagePlayer.image = UIImage.init(named: "")
+                        }
                         
                     }else{
                         // Load new one
@@ -923,7 +960,7 @@ class RandomPage: UIViewController{
     func extractRandomPlayer(actualPlayer:String)->Player{
         let playerstemp:[Player] = randomContent
         let randomIndex = Int(arc4random_uniform(UInt32(playerstemp.count)))
-        let tempPlayer:Player = playerstemp[randomIndex]
+        var tempPlayer:Player = playerstemp[randomIndex]
         
         
         print("I'm checking that " + tempPlayer.name + " is in the list : " + extracted.joined(separator: ", "))
