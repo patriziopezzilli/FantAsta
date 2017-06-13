@@ -552,6 +552,10 @@ class RandomPage: UIViewController{
         self.randomTeam.fadeTransition(0.2)
         self.randomQuotation.fadeTransition(0.2)
         
+        print(previousPlayer?.name)
+        print(lastPlayer?.name)
+        print(nextPlayer?.name)
+        
         self.star1.image = nil
         self.star2.image = nil
         self.star3.image = nil
@@ -559,10 +563,12 @@ class RandomPage: UIViewController{
         self.star5.image = nil
         
         if(nextPlayer != nil){
-            turnNext(tempPlayer: nextPlayer!)
+          /* turnNext(tempPlayer: nextPlayer!)
             
-            previousPlayer = nil
-            lastImagePlayer.image = UIImage.init(named: "")
+          //  previousPlayer = nil
+           // lastImagePlayer.image = UIImage.init(named: "")
+            previousPlayer = lastPlayer
+            changeCardPreviousNextWithAnimation(giocatore: previousPlayer!, choose: "prev")
             
             if(remains > 1){
             let tempPlayer:Player = extractRandomPlayer(actualPlayer: lastPlayer!.name)
@@ -577,6 +583,125 @@ class RandomPage: UIViewController{
                 nextPlayer = nil
                 lastImagePlayer.image = UIImage.init(named: "")
             }
+            */
+            // here go the check
+            if(remains > 1){
+                // I have to put the right player, extract new one for next and set actual as previous
+                // Check previous
+                if(!lastPlayer!.marked){
+                    previousPlayer = lastPlayer
+                    changeCardPreviousNextWithAnimation(giocatore: previousPlayer!, choose: "previous")
+                }else{
+                    previousPlayer = nil
+                    lastImagePlayer.image = UIImage.init(named: "")
+                }
+                let tempPlayer:Player = nextPlayer!
+                
+                // Save into lastPlayer information
+                lastPlayer = nextPlayer
+                
+                // Extract next
+                if(remains > 1){
+                    nextPlayer = extractRandomPlayer(actualPlayer: (lastPlayer?.name)!)
+                    changeCardPreviousNextWithAnimation(giocatore: nextPlayer!, choose: "next")
+                }else{
+                    nextPlayer = nil
+                    lastImagePlayer.image = UIImage.init(named: "")
+                }
+                playerName = tempPlayer.name
+                
+                self.view.bringSubview(toFront: randomName);
+                self.view.bringSubview(toFront: randomQuotation);
+                self.randomTeam.text = tempPlayer.team
+                self.randomQuotation.text = tempPlayer.quotation
+                self.randomName.text = tempPlayer.name
+                self.role = tempPlayer.role
+                
+                switch tempPlayer.team {
+                case "Atalanta":
+                    //image.image = UIImage(named:"Atalanta")
+                    changeImageWithAnimation(squadra: "Atalanta")
+                case "Cagliari":
+                    //image.image = UIImage(named:"Cagliari")
+                    changeImageWithAnimation(squadra: "Cagliari")
+                case "Chievo":
+                    //image.image = UIImage(named:"Chievo")
+                    changeImageWithAnimation(squadra: "Chievo")
+                case "Crotone":
+                    // image.image = UIImage(named:"Crotone")
+                    changeImageWithAnimation(squadra: "Crotone")
+                case "Empoli":
+                    // image.image = UIImage(named:"Empoli")
+                    changeImageWithAnimation(squadra: "Empoli")
+                case "Fiorentina":
+                    // image.image = UIImage(named:"Fiorentina")
+                    changeImageWithAnimation(squadra: "Fiorentina")
+                case "Genoa":
+                    // image.image = UIImage(named:"Genoa")
+                    changeImageWithAnimation(squadra: "Genoa")
+                case "Inter":
+                    // image.image = UIImage(named:"Inter")
+                    changeImageWithAnimation(squadra: "Inter")
+                case "Juventus":
+                    // image.image = UIImage(named:"Juventus")
+                    changeImageWithAnimation(squadra: "Juventus")
+                case "Lazio":
+                    //image.image = UIImage(named:"Lazio")
+                    changeImageWithAnimation(squadra: "Lazio")
+                case "Milan":
+                    // image.image = UIImage(named:"Milan")
+                    changeImageWithAnimation(squadra: "Milan")
+                case "Napoli":
+                    // image.image = UIImage(named:"Napoli")
+                    changeImageWithAnimation(squadra: "Napoli")
+                case "Palermo":
+                    // image.image = UIImage(named:"Palermo")
+                    changeImageWithAnimation(squadra: "Palermo")
+                case "Roma":
+                    //  image.image = UIImage(named:"Roma")
+                    changeImageWithAnimation(squadra: "Roma")
+                case "Sampdoria":
+                    //image.image = UIImage(named:"Sampdoria")
+                    changeImageWithAnimation(squadra: "Sampdoria")
+                case "Sassuolo":
+                    // image.image = UIImage(named:"Sassuolo")
+                    changeImageWithAnimation(squadra: "Sassuolo")
+                case "Torino":
+                    // image.image = UIImage(named:"Torino")
+                    changeImageWithAnimation(squadra: "Torino")
+                case "Udinese":
+                    // image.image = UIImage(named:"Udinese")
+                    changeImageWithAnimation(squadra: "Udinese")
+                default:
+                    // image.image = UIImage(named: "no_image")
+                    changeImageWithAnimation(squadra: "no_image")
+                }
+                
+                self.star1.image = UIImage(named:"star")
+                self.view.bringSubview(toFront: star1);
+                let myNumber = Int(tempPlayer.quotation)
+                
+                if(myNumber!>2){
+                    self.star2.image = UIImage(named:"star")
+                    self.view.bringSubview(toFront: star2);
+                }
+                if(myNumber!>7){
+                    self.star3.image = UIImage(named:"star")
+                    self.view.bringSubview(toFront: star3);
+                }
+                if(myNumber!>10){
+                    self.star4.image = UIImage(named:"star")
+                    self.view.bringSubview(toFront: star4);
+                }
+                if(myNumber!>20){
+                    self.star5.image = UIImage(named:"star")
+                    self.view.bringSubview(toFront: star5);
+                }
+                
+                changeCardWithAnimation(giocatore: tempPlayer)
+                
+            }
+
         }else{
             // Check previous
             if(lastPlayer != nil){
@@ -703,6 +828,7 @@ class RandomPage: UIViewController{
         if(randomContent.filter { $0.marked == false }.count > 0){
             self.assignButton.isEnabled = true
             self.skipButton.isEnabled = true
+            self.randomTeam.font = UIFont(name: self.randomTeam.font.fontName, size: 34)
             let tabItems = self.tabBarController?.tabBar.items as NSArray!
             
             // In this case we want to modify the badge number of the third tab:

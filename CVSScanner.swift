@@ -6,6 +6,7 @@
 //  Copyright © 2017 Patrizio Pezzilli. All rights reserved.
 //
 import Foundation
+import UIKit
 
 class CSVScanner {
     
@@ -51,7 +52,27 @@ class CSVScanner {
                     }
                 }
         }else{
+            var first: Homepage = Homepage(nibName: nil, bundle: nil)
             CSVScanner.debug(string: "Unable to get path to csv file: \(theFileName).csv")
+                let refreshAlert = UIAlertController(title: "Download dati fallito", message: "Download non portato a termine a causa di un errore di rete.", preferredStyle: UIAlertControllerStyle.alert)
+                
+                let refreshAction = UIAlertAction(title: "Riprova", style: UIAlertActionStyle.default) {
+                    UIAlertAction in
+                    // do action
+                    first.loadData("any")
+                    }
+                
+                refreshAlert.addAction(refreshAction)
+                
+                refreshAlert.addAction(UIAlertAction(title: "Annulla", style: .cancel, handler: { (action: UIAlertAction!) in
+                    print("Handle Cancel Logic here")
+                    
+                }))
+                
+                DispatchQueue.main.async {
+                    first.present(refreshAlert, animated: true, completion: nil)
+                }
+
         }
     }
 }

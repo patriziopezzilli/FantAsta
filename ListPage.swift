@@ -76,11 +76,25 @@ class ListPage: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, 
     
     func listAndLoadSortedBy(){
         if(listOption == "alf"){
-            self.content.sort { $0.name < $1.name }
+            // Sort all contents (portieri,difensori,centrocampisti e attaccanti)
+            content = content.sorted { $0.name < $1.name }
+            portieri = portieri.sorted { $0.name < $1.name }
+            difensori = difensori.sorted { $0.name < $1.name }
+            centrocampisti = centrocampisti.sorted { $0.name < $1.name }
+            attaccanti = attaccanti.sorted { $0.name < $1.name }
+            
+            // Reload data
             listaNavBar.title = "Ordine Alfabetico"
             tableView.reloadData()
         }else{
-            self.content.sort { Int.init($0.quotation)! < Int.init($1.quotation)! }
+            // Sort all contents (portieri,difensori,centrocampisti e attaccanti)
+            content = content.sorted { Int.init($0.quotation)! < Int.init($1.quotation)! }
+            portieri = portieri.sorted { Int.init($0.quotation)! < Int.init($1.quotation)! }
+            difensori = difensori.sorted { Int.init($0.quotation)! < Int.init($1.quotation)! }
+            centrocampisti = centrocampisti.sorted { Int.init($0.quotation)! < Int.init($1.quotation)! }
+            attaccanti = attaccanti.sorted { Int.init($0.quotation)! < Int.init($1.quotation)! }
+            
+            // Reload data
             listaNavBar.title = "Ordine di Quotazione"
             tableView.reloadData()
         }
@@ -186,6 +200,8 @@ class ListPage: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, 
         cell = UITableViewCell(style: UITableViewCellStyle.value1,
                                reuseIdentifier: cellReuseIdentifier)
         
+        var players:[Player] = content
+        var tempPlayer:Player = content[indexPath.row]
         if(content[indexPath.row].marked == true){
             cell.backgroundColor = UIColor.white
             cell.textLabel?.textColor = UIColor.black
@@ -196,25 +212,25 @@ class ListPage: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, 
             case "P":
                 print(portieri[indexPath.row].name + "  deassigned")
                 portieri[indexPath.row].marked = false
-                tableView.reloadData()
+                listAndLoadSortedBy()
                 deleteFromExtracted(element: portieri[indexPath.row].name)
                 reloadBadge()
             case "D":
                 print(difensori[indexPath.row].name + "  deassigned")
                 difensori[indexPath.row].marked = false
-                tableView.reloadData()
+                listAndLoadSortedBy()
                 deleteFromExtracted(element: difensori[indexPath.row].name)
                 reloadBadge()
             case "C":
                 print(centrocampisti[indexPath.row].name + "  deassigned")
                 centrocampisti[indexPath.row].marked = false
-                tableView.reloadData()
+                listAndLoadSortedBy()
                 deleteFromExtracted(element: centrocampisti[indexPath.row].name)
                 reloadBadge()
             case "A":
                 print(attaccanti[indexPath.row].name + "  deassigned")
                 attaccanti[indexPath.row].marked = false
-                tableView.reloadData()
+                listAndLoadSortedBy()
                 deleteFromExtracted(element: attaccanti[indexPath.row].name)
                 reloadBadge()
             default:
