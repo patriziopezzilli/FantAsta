@@ -6,6 +6,10 @@
 //  Copyright © 2017 Patrizio Pezzilli. All rights reserved.
 //
 
+
+
+// FantAsta 2.0
+
 import UIKit
 
 let kUserDefault = UserDefaults.standard
