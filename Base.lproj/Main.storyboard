@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -87,10 +89,6 @@
                             <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wEg-d5-mse">
                                 <rect key="frame" x="195" y="272" width="149" height="40"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="225-kB-Vo2"/>
-                                    <constraint firstAttribute="width" constant="149" id="CAP-HY-0LT"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
                                 <color key="tintColor" white="1" alpha="0.60000002379999995" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Reset dati"/>
@@ -125,7 +123,11 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CiI-tG-ooW">
-                                <rect key="frame" x="0.0" y="321" width="375" height="25"/>
+                                <rect key="frame" x="0.0" y="313" width="375" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="X7q-JY-UEl"/>
+                                    <constraint firstAttribute="width" constant="375" id="sfj-QP-gZU"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="15"/>
                                 <color key="textColor" red="0.26733210682868958" green="0.69194626808166504" blue="0.36213669180870056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -134,22 +136,23 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Kza-Ap-zni" secondAttribute="trailing" id="0uE-1o-hGr"/>
-                            <constraint firstItem="CiI-tG-ooW" firstAttribute="leading" secondItem="gA3-9X-zvP" secondAttribute="leading" id="1f7-gp-Nvv"/>
                             <constraint firstItem="1by-1e-2um" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="7" id="2N0-bx-6wf"/>
-                            <constraint firstItem="wEg-d5-mse" firstAttribute="top" secondItem="onw-VZ-lne" secondAttribute="bottom" constant="57" id="76y-rf-jA8"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Kza-Ap-zni" secondAttribute="bottom" id="81i-UW-uZh"/>
                             <constraint firstAttribute="trailing" secondItem="eYj-C1-WjO" secondAttribute="trailing" id="C1s-zr-mgF"/>
                             <constraint firstItem="gA3-9X-zvP" firstAttribute="top" secondItem="eYj-C1-WjO" secondAttribute="bottom" id="CCx-Lr-P44"/>
-                            <constraint firstItem="CiI-tG-ooW" firstAttribute="top" secondItem="wEg-d5-mse" secondAttribute="bottom" constant="9" id="CRn-OZ-2WE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="386-T4-nMz" secondAttribute="trailing" constant="-5" id="GgH-cf-aAr"/>
+                            <constraint firstItem="CiI-tG-ooW" firstAttribute="top" secondItem="gA3-9X-zvP" secondAttribute="bottom" constant="8" symbolic="YES" id="MDE-tH-d6m"/>
+                            <constraint firstItem="wEg-d5-mse" firstAttribute="top" secondItem="1by-1e-2um" secondAttribute="top" id="VQJ-Ot-vvt"/>
                             <constraint firstItem="onw-VZ-lne" firstAttribute="leading" secondItem="1by-1e-2um" secondAttribute="leading" id="X7k-7t-oFn"/>
                             <constraint firstItem="gA3-9X-zvP" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="YhI-TL-fyd"/>
-                            <constraint firstItem="CiI-tG-ooW" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" id="cRK-Zs-EXD"/>
-                            <constraint firstItem="CiI-tG-ooW" firstAttribute="trailing" secondItem="Kza-Ap-zni" secondAttribute="trailing" id="dm5-PI-tV4"/>
+                            <constraint firstItem="wEg-d5-mse" firstAttribute="leading" secondItem="1by-1e-2um" secondAttribute="trailing" constant="23" id="ZJT-eT-aqH"/>
+                            <constraint firstItem="CiI-tG-ooW" firstAttribute="leading" secondItem="gA3-9X-zvP" secondAttribute="leading" id="aE6-uy-Dth"/>
+                            <constraint firstItem="wEg-d5-mse" firstAttribute="baseline" secondItem="1by-1e-2um" secondAttribute="firstBaseline" id="c3D-VJ-fL9"/>
+                            <constraint firstItem="wEg-d5-mse" firstAttribute="firstBaseline" secondItem="1by-1e-2um" secondAttribute="baseline" id="ceJ-An-bDU"/>
                             <constraint firstItem="gA3-9X-zvP" firstAttribute="top" secondItem="eYj-C1-WjO" secondAttribute="bottom" id="edw-sa-cFQ"/>
-                            <constraint firstItem="wEg-d5-mse" firstAttribute="leading" secondItem="1by-1e-2um" secondAttribute="trailing" constant="23" id="fTq-lG-3AW"/>
                             <constraint firstItem="1by-1e-2um" firstAttribute="top" secondItem="eYj-C1-WjO" secondAttribute="bottom" constant="194" id="gIV-hv-Sq6"/>
                             <constraint firstItem="eYj-C1-WjO" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="gY9-mN-kxV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="wEg-d5-mse" secondAttribute="trailing" constant="15" id="hDu-dB-dOu"/>
                             <constraint firstItem="gA3-9X-zvP" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="mqd-zJ-0Mg"/>
                             <constraint firstItem="Kza-Ap-zni" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="mv1-tL-tpM"/>
                             <constraint firstItem="LFb-QL-g8F" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="naD-7B-DeH"/>

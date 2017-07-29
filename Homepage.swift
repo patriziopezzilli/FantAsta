@@ -200,6 +200,11 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
         // mark visited app
         appOpened()
         
+        if(calculateScreenSize() < 325.0){
+            self.bannerView.isHidden = true
+            self.view.bringSubview(toFront: fgButton!)
+        }
+        
       //  self.signalButton.
         self.resetDatiButton.isEnabled = false
         self.resetDatiButton.layer.cornerRadius = 16
@@ -630,6 +635,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
     }
     
     func downloadPlayerImageOnStartUp(){
+        do{
         DispatchQueue.global().async{
         
             let alert = UIAlertController(title: nil, message: "Caricamento dati", preferredStyle: .alert)
@@ -665,12 +671,18 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             
             self.dismiss(animated: true, completion: nil)
         }
+        } catch {
+            print("error getting xml string")
+        }
     }
     
     func setImageToThePlayer(player:Player, alert:UIAlertController){
         if(((UIImage(named: player.name.replacingOccurrences(of: " ", with: "-")))) != nil){
             let imagePlayer:UIImage = UIImage(named: player.name.replacingOccurrences(of: " ", with: "-"))!
             print(player.name + " has image")
+            player.setImage(toSet: imagePlayer)
+        }else{
+            let imagePlayer:UIImage = UIImage(named: "no_avatar")!
             player.setImage(toSet: imagePlayer)
         }
     }
