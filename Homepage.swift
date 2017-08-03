@@ -54,6 +54,10 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
     
     let mockImage = UIImage(named: "no_avatar")
     
+    @IBAction func fantagazzettaLinked(_ sender: Any) {
+        loadData("")
+    }
+    
     @IBAction func loadData(_ sender: Any) {
         print("Loading data..")
         
@@ -142,48 +146,13 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
         players.append(contentsOf: centrocampisti)
         players.append(contentsOf: attaccanti)
         
-        
-        // enable second and third tab until click on button
-        let tabItems = self.tabBarController?.tabBar.items as NSArray!
-        let generatore = tabItems?[1] as! UITabBarItem
-        let listaQuot = tabItems?[2] as! UITabBarItem
-        
         if(portieri.count > 0){
             
             // Download player images
             print("Starting downloading player images..")
             downloadPlayerImageOnStartUp()
             
-            self.fgButton.imageView?.image = UIImage(named: "fgPaper-loaded")
-            
             randomContent = portieri
-            reloadBadge()
-            
-            generatore.isEnabled = true
-            listaQuot.isEnabled = true
-            
-            // Disable button
-            self.loadDataButton.isEnabled = false
-            self.loadDataButton.setTitle("Dati caricati", for: .normal)
-            self.loadDataButton.backgroundColor = UIColor(red:0.0,green:128/255.0,blue:0.0,alpha:1.0)
-            self.resetDatiButton.isEnabled = true
-            
-            // Override main slate image
-          //  changeImageWithAnimation(imagename: "lavagna_success")
-            self.view.sendSubview(toBack: fgButton)
-            self.view.bringSubview(toFront: adBannerView!)
-            
-            
-            self.view.sendSubview(toBack: wallpaperImage)
-            // Date today
-            let date:Date = Date()
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd-MM-yyyy"
-            dateDataLoad = formatter.string(from: date)
-        
-            print("Data loaded on: " + dateDataLoad)
-            labelUpdate.text = "Quotazioni aggiornate al " + dateDataLoad
-          //  dateDataLoad = "10-03-2017"
             enrichDatesToCheck(previousDate: dateDataLoad)
             let update:String = checkIfUpdateIsAvailable()
             print(update)
@@ -198,7 +167,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
         super.viewDidLoad()
         
         // mark visited app
-        appOpened()
+       /*  appOpened()
         
         if(calculateScreenSize() < 325.0){
             self.bannerView.isHidden = true
@@ -437,6 +406,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
         
         self.view.bringSubview(toFront: adBannerView!)
         self.view.sendSubview(toBack: wallpaperImage)
+ */
     }
     
     override func didReceiveMemoryWarning() {
@@ -482,9 +452,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
     }
  
     @IBAction func fgClicked(_ sender: Any) {
-        // Disable button
-        self.loadDataButton.isEnabled = true
-       self.fgButton.isEnabled = false
+        
         
     }
     
@@ -509,9 +477,6 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             
             
             self.fgButton.imageView?.image = UIImage(named: "fgPaper")
-            
-            // Reload badge again
-            self.reloadBadge()
             
             // Disable second and third tab until click on button
             let tabItems = self.tabBarController?.tabBar.items as NSArray!
@@ -579,15 +544,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
         // Build formatter
         let formatter = DateFormatter()
         formatter.dateFormat = "dd-MM-yyyy"
-        
-        // Build previous date
-        var dateBefore:Date = formatter.date(from: previousDate)!
-        
-        repeat {
-            dateBefore = dateBefore.tomorrow!
-            dates.append(formatter.string(from: dateBefore))
-        } while (dateBefore < date)
-        
+            
         print(dates)
     }
     
@@ -624,59 +581,29 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
         return false
     }
     
-    func reloadBadge(){
-        let tabItems = self.tabBarController?.tabBar.items as NSArray!
-        
-        // In this case we want to modify the badge number of the third tab:
-        let tabItem = tabItems?[1] as! UITabBarItem
-        
-        // Now set the badge of the third tab
-        tabItem.badgeValue = String(randomContent.filter{ $0.marked == true }.count)
-    }
-    
     func downloadPlayerImageOnStartUp(){
-        do{
-        DispatchQueue.global().async{
-        
-            let alert = UIAlertController(title: nil, message: "Caricamento dati", preferredStyle: .alert)
-        
-            let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-            loadingIndicator.hidesWhenStopped = true
-            loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-            loadingIndicator.startAnimating();
-            
-            alert.view.addSubview(loadingIndicator)
-            
-            self.present(alert, animated: true, completion: nil)
-            
         // Portieri
         for portiere in portieri {
-            self.setImageToThePlayer(player: portiere, alert: alert)
+            self.setImageToThePlayer(player: portiere)
         }
         
             // Difensori
         for difensore in difensori {
-            self.setImageToThePlayer(player: difensore, alert: alert)
+            self.setImageToThePlayer(player: difensore)
         }
         
             // Centrocampisti
         for centrocampista in centrocampisti {
-            self.setImageToThePlayer(player: centrocampista, alert: alert)
+            self.setImageToThePlayer(player: centrocampista)
         }
         
             // Attaccanti
         for attaccante in attaccanti {
-            self.setImageToThePlayer(player: attaccante, alert: alert)
-        }
-            
-            self.dismiss(animated: true, completion: nil)
-        }
-        } catch {
-            print("error getting xml string")
+            self.setImageToThePlayer(player: attaccante)
         }
     }
-    
-    func setImageToThePlayer(player:Player, alert:UIAlertController){
+
+    func setImageToThePlayer(player:Player){
         if(((UIImage(named: player.name.replacingOccurrences(of: " ", with: "-")))) != nil){
             let imagePlayer:UIImage = UIImage(named: player.name.replacingOccurrences(of: " ", with: "-"))!
             print(player.name + " has image")
@@ -686,12 +613,12 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             player.setImage(toSet: imagePlayer)
         }
     }
-}
 
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     let documentsDirectory = paths[0]
     return documentsDirectory
+}
 }
 
 func isConnectedToNetwork() -> Bool {
@@ -761,26 +688,4 @@ func markDataLoaded() {
     }
     
     task.resume()
-}
-
-
-extension UIColor {
-    convenience init(hex: String) {
-        let scanner = Scanner(string: hex)
-        scanner.scanLocation = 0
-        
-        var rgbValue: UInt64 = 0
-        
-        scanner.scanHexInt64(&rgbValue)
-        
-        let r = (rgbValue & 0xff0000) >> 16
-        let g = (rgbValue & 0xff00) >> 8
-        let b = rgbValue & 0xff
-        
-        self.init(
-            red: CGFloat(r) / 0xff,
-            green: CGFloat(g) / 0xff,
-            blue: CGFloat(b) / 0xff, alpha: 1
-        )
-    }
 }

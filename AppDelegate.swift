@@ -44,6 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Data are not present..")
         }
         
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let secondVC = storyBoard.instantiateViewController(withIdentifier: "Homepage") as! Homepage
+        self.window?.rootViewController = secondVC
+        
         return true
     }
 
