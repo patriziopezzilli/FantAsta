@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -434,7 +434,7 @@
                                 </constraints>
                                 <color key="separatorColor" red="0.92124956846237183" green="0.92194885015487671" blue="0.92135781049728394" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Seleziona ruolo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESk-8Z-bHd">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seleziona ruolo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESk-8Z-bHd">
                                 <rect key="frame" x="16" y="85" width="157" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -446,7 +446,7 @@
                                     <constraint firstAttribute="height" constant="30" id="ek0-mm-CMW"/>
                                     <constraint firstAttribute="width" constant="137" id="qD7-c3-zut"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Reset totale"/>
                                 <connections>
                                     <action selector="resetAssign:" destination="fyf-IK-9CG" eventType="touchDown" id="VFe-AK-eI2"/>
@@ -511,6 +511,16 @@
                                     <action selector="valueChanged:" destination="fyf-IK-9CG" eventType="valueChanged" id="J0l-zG-dJ3"/>
                                 </connections>
                             </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tKG-1U-ajq">
+                                <rect key="frame" x="256" y="82" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="td3-uI-2vn"/>
+                                </constraints>
+                                <state key="normal" title="Random totale"/>
+                                <connections>
+                                    <action selector="touchTotalRandomize:" destination="fyf-IK-9CG" eventType="touchDown" id="05X-qC-xZ8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -519,6 +529,7 @@
                             <constraint firstItem="t7b-3o-QCq" firstAttribute="leading" secondItem="usR-uV-fpw" secondAttribute="leading" constant="8" id="4Uk-IG-m7c"/>
                             <constraint firstItem="YaQ-ON-kP5" firstAttribute="top" secondItem="usR-uV-fpw" secondAttribute="bottom" constant="8" symbolic="YES" id="59h-df-3Gy"/>
                             <constraint firstItem="ClF-my-Quk" firstAttribute="top" secondItem="LKZ-LJ-Ucw" secondAttribute="bottom" constant="8" symbolic="YES" id="5hd-Bz-fbn"/>
+                            <constraint firstItem="tKG-1U-ajq" firstAttribute="leading" secondItem="ESk-8Z-bHd" secondAttribute="trailing" constant="83" id="9UE-12-EEF"/>
                             <constraint firstItem="t7b-3o-QCq" firstAttribute="leading" secondItem="62q-sy-jF9" secondAttribute="leading" constant="8" id="AoR-bz-z8o"/>
                             <constraint firstItem="Yce-Kc-XsX" firstAttribute="top" secondItem="ClF-my-Quk" secondAttribute="bottom" constant="27" id="DuB-lg-rp2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="LKZ-LJ-Ucw" secondAttribute="trailing" constant="3" id="GtD-gq-CFW"/>
@@ -528,6 +539,7 @@
                             <constraint firstItem="t7b-3o-QCq" firstAttribute="top" secondItem="usR-uV-fpw" secondAttribute="top" id="WbQ-F7-ZaY"/>
                             <constraint firstItem="DUs-54-Hga" firstAttribute="leading" secondItem="ClF-my-Quk" secondAttribute="leading" id="Yeu-7v-ZZH"/>
                             <constraint firstItem="DUs-54-Hga" firstAttribute="trailing" secondItem="Jnm-Cw-Gfb" secondAttribute="trailing" constant="-19" id="ZBr-me-Dhq"/>
+                            <constraint firstItem="tKG-1U-ajq" firstAttribute="trailing" secondItem="DUs-54-Hga" secondAttribute="trailing" id="bwq-1Z-JxR"/>
                             <constraint firstItem="xoc-5i-6Gc" firstAttribute="leading" secondItem="904-jO-aHa" secondAttribute="leadingMargin" id="cnG-1H-h4Q"/>
                             <constraint firstItem="LKZ-LJ-Ucw" firstAttribute="top" secondItem="DUs-54-Hga" secondAttribute="bottom" constant="21" id="eOF-Rj-OYG"/>
                             <constraint firstItem="DUs-54-Hga" firstAttribute="trailing" secondItem="ClF-my-Quk" secondAttribute="trailing" constant="-3" id="iRu-kB-MH0"/>
@@ -538,8 +550,9 @@
                             <constraint firstItem="67t-Vr-gdp" firstAttribute="leading" secondItem="t7b-3o-QCq" secondAttribute="trailing" constant="23" id="r6o-Fm-X1o"/>
                             <constraint firstAttribute="trailing" secondItem="Jnm-Cw-Gfb" secondAttribute="trailing" id="tNX-fx-um6"/>
                             <constraint firstItem="DUs-54-Hga" firstAttribute="leading" secondItem="Jnm-Cw-Gfb" secondAttribute="leading" constant="16" id="u0J-Mo-xNV"/>
+                            <constraint firstItem="DUs-54-Hga" firstAttribute="top" secondItem="tKG-1U-ajq" secondAttribute="bottom" constant="8" symbolic="YES" id="wzx-rb-nSB"/>
                             <constraint firstItem="DUs-54-Hga" firstAttribute="top" secondItem="Jnm-Cw-Gfb" secondAttribute="bottom" constant="48" id="xKX-YY-rKe"/>
-                            <constraint firstItem="ESk-8Z-bHd" firstAttribute="top" secondItem="Jnm-Cw-Gfb" secondAttribute="bottom" constant="19" id="xY5-X2-6zn"/>
+                            <constraint firstItem="ESk-8Z-bHd" firstAttribute="top" secondItem="Jnm-Cw-Gfb" secondAttribute="bottom" constant="13" id="xY5-X2-6zn"/>
                             <constraint firstItem="usR-uV-fpw" firstAttribute="leading" secondItem="904-jO-aHa" secondAttribute="leadingMargin" id="zJC-4p-wUs"/>
                         </constraints>
                     </view>

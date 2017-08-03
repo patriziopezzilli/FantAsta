@@ -987,6 +987,9 @@ class RandomPage: UIViewController{
         case "attaccanti":
             randomContent = attaccanti
             tempRole = "A"
+        case "tutti":
+            randomContent = players
+            tempRole = "TUTTI"
         default:
             print("default")
         }

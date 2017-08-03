@@ -20,7 +20,7 @@ class MenuOptionViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBOutlet weak var textView: UITextView!
     
-    var content:[String] = ["Portieri","Difensori","Centrocampisti","Attaccanti"]
+    var content:[String] = ["Portieri","Difensori","Centrocampisti","Attaccanti","Tutti"]
     
     var first: Homepage = Homepage(nibName: nil, bundle: nil)
     var second: RandomPage = RandomPage(nibName: nil, bundle: nil)
@@ -76,6 +76,16 @@ class MenuOptionViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int)->Int
     {
         return 4
+    }
+    
+    @IBAction func touchTotalRandomize(_ sender: Any) {
+        print("Total randomize..")
+        
+        randomContent = players
+        navBarTitle = "Tutti"
+        picked = "tutti"
+        
+        dismissWithCheck()
     }
     
     
