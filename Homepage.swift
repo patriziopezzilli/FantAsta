@@ -11,6 +11,7 @@ import GoogleMobileAds
 import Foundation
 import SystemConfiguration
 import MessageUI
+import AudioToolbox
 
 var players:[Player] = []
 var portieri:[Player] = []
@@ -42,153 +43,200 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
     var adBannerView: GADBannerView?
     var interstitial: GADInterstitial?
     
+    @IBOutlet weak var navBarTitle: UINavigationItem!
     @IBOutlet weak var bannerView: UIView!
-    @IBOutlet weak var loadDatiButton: UIButton!
     @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var resetDatiButton: UIButton!
+    
+    @IBOutlet weak var loadDatiButton: UIButton!
+    
     @IBOutlet weak var fgButton: UIButton!
     @IBOutlet weak var signalButton: UIButton!
     @IBOutlet weak var wallpaperImage: UIImageView!
     
-    @IBOutlet weak var labelUpdate: UILabel!
-    
     let mockImage = UIImage(named: "no_avatar")
     
     @IBAction func loadData(_ sender: Any) {
-        print("Loading data..")
-        
-        // Load data section (now offline, next online)
-        var myCSVContents = Array<Dictionary<String, String>>()
-        
-        /*   Initialize goalkeeper    */
-        
-        CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "portieri", withFunction: {
+        AudioServicesPlaySystemSound(1519)
+        if(loadDataButton.currentImage == UIImage.init(named: "carica_dati")){
+            print("Loading data..")
             
-            (aRow:Dictionary<String, String>) in
+            // Load data section (now offline, next online)
+            var myCSVContents = Array<Dictionary<String, String>>()
             
-            myCSVContents.append(aRow)
+            /*   Initialize goalkeeper    */
             
-        })
-        
-        for entry in myCSVContents {
-            // parse string from role and getting values.
-            let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-            let goalKeeperTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
-            portieri.append(goalKeeperTemp)
-            portieriCount += 1
-        }
-        portieri.sort { $0.name < $1.name }
-        
-        var myCSVContents_2 = Array<Dictionary<String, String>>()
-        
-        /*   Initialize defenders    */
-        CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "difensori", withFunction: {
+            CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "portieri", withFunction: {
+                
+                (aRow:Dictionary<String, String>) in
+                
+                myCSVContents.append(aRow)
+                
+            })
             
-            (aRow:Dictionary<String, String>) in
+            for entry in myCSVContents {
+                // parse string from role and getting values.
+                let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
+                let goalKeeperTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
+                portieri.append(goalKeeperTemp)
+                portieriCount += 1
+            }
+            portieri.sort { $0.name < $1.name }
             
-            myCSVContents_2.append(aRow)
+            var myCSVContents_2 = Array<Dictionary<String, String>>()
             
-        })
-        
-        for entry in myCSVContents_2 {
-            // parse string from role and getting values.
-            let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-            let defenderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
-            difensori.append(defenderTemp)
-            difensoriCount += 1
-        }
-        difensori.sort { $0.name < $1.name }
-        var myCSVContents_3 = Array<Dictionary<String, String>>()
-        
-        /*   Initialize middlefielders    */
-        CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "centrocampisti", withFunction: {
+            /*   Initialize defenders    */
+            CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "difensori", withFunction: {
+                
+                (aRow:Dictionary<String, String>) in
+                
+                myCSVContents_2.append(aRow)
+                
+            })
             
-            (aRow:Dictionary<String, String>) in
+            for entry in myCSVContents_2 {
+                // parse string from role and getting values.
+                let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
+                let defenderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
+                difensori.append(defenderTemp)
+                difensoriCount += 1
+            }
+            difensori.sort { $0.name < $1.name }
+            var myCSVContents_3 = Array<Dictionary<String, String>>()
             
-            myCSVContents_3.append(aRow)
+            /*   Initialize middlefielders    */
+            CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "centrocampisti", withFunction: {
+                
+                (aRow:Dictionary<String, String>) in
+                
+                myCSVContents_3.append(aRow)
+                
+            })
             
-        })
-        
-        for entry in myCSVContents_3 {
-            // parse string from role and getting values.
-            let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-            let middlefielderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
-            centrocampisti.append(middlefielderTemp)
-            centrocampistiCount += 1
-        }
-        centrocampisti.sort { $0.name < $1.name }
-        var myCSVContents_4 = Array<Dictionary<String, String>>()
-        
-        /*   Initialize striker    */
-        CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "attaccanti", withFunction: {
+            for entry in myCSVContents_3 {
+                // parse string from role and getting values.
+                let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
+                let middlefielderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
+                centrocampisti.append(middlefielderTemp)
+                centrocampistiCount += 1
+            }
+            centrocampisti.sort { $0.name < $1.name }
+            var myCSVContents_4 = Array<Dictionary<String, String>>()
             
-            (aRow:Dictionary<String, String>) in
+            /*   Initialize striker    */
+            CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "attaccanti", withFunction: {
+                
+                (aRow:Dictionary<String, String>) in
+                
+                myCSVContents_4.append(aRow)
+                
+            })
             
-            myCSVContents_4.append(aRow)
+            for entry in myCSVContents_4 {
+                // parse string from role and getting values.
+                let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
+                let attTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
+                attaccanti.append(attTemp)
+                attaccantiCount += 1
+            }
+            attaccanti.sort { $0.name < $1.name }
             
-        })
-        
-        for entry in myCSVContents_4 {
-            // parse string from role and getting values.
-            let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-            let attTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
-            attaccanti.append(attTemp)
-            attaccantiCount += 1
-        }
-        attaccanti.sort { $0.name < $1.name }
-        
-        players.append(contentsOf: portieri)
-        players.append(contentsOf: difensori)
-        players.append(contentsOf: centrocampisti)
-        players.append(contentsOf: attaccanti)
-        
-        
-        // enable second and third tab until click on button
-        let tabItems = self.tabBarController?.tabBar.items as NSArray!
-        let generatore = tabItems?[1] as! UITabBarItem
-        let listaQuot = tabItems?[2] as! UITabBarItem
-        
-        if(portieri.count > 0){
-            
-            // Download player images
-            print("Starting downloading player images..")
-            downloadPlayerImageOnStartUp()
-            
-            self.fgButton.imageView?.image = UIImage(named: "fgPaper-loaded")
-            
-            randomContent = portieri
-            reloadBadge()
-            
-            generatore.isEnabled = true
-            listaQuot.isEnabled = true
-            
-            // Disable button
-            self.loadDataButton.isEnabled = false
-            self.loadDataButton.setTitle("Dati caricati", for: .normal)
-            self.loadDataButton.backgroundColor = UIColor(red:0.0,green:128/255.0,blue:0.0,alpha:1.0)
-            self.resetDatiButton.isEnabled = true
-            
-            // Override main slate image
-          //  changeImageWithAnimation(imagename: "lavagna_success")
-            self.view.sendSubview(toBack: fgButton)
-            self.view.bringSubview(toFront: adBannerView!)
+            players.append(contentsOf: portieri)
+            players.append(contentsOf: difensori)
+            players.append(contentsOf: centrocampisti)
+            players.append(contentsOf: attaccanti)
             
             
-            self.view.sendSubview(toBack: wallpaperImage)
-            // Date today
-            let date:Date = Date()
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd-MM-yyyy"
-            dateDataLoad = formatter.string(from: date)
-        
-            print("Data loaded on: " + dateDataLoad)
-            labelUpdate.text = "Quotazioni aggiornate al " + dateDataLoad
-          //  dateDataLoad = "10-03-2017"
-            enrichDatesToCheck(previousDate: dateDataLoad)
-            let update:String = checkIfUpdateIsAvailable()
-            print(update)
+            // enable second and third tab until click on button
+            let tabItems = self.tabBarController?.tabBar.items as NSArray!
+            let generatore = tabItems?[1] as! UITabBarItem
+            let listaQuot = tabItems?[2] as! UITabBarItem
             
-            markDataLoaded()
+            if(portieri.count > 0){
+                
+                // Download player images
+                print("Starting downloading player images..")
+                downloadPlayerImageOnStartUp()
+                
+                self.fgButton.imageView?.image = UIImage(named: "fgPaper-loaded")
+                
+                randomContent = portieri
+                reloadBadge()
+                
+                generatore.isEnabled = true
+                listaQuot.isEnabled = true
+                
+                // Disable button
+                loadDataButton.setImage(UIImage.init(named: "reset_dati"),for:.normal)
+                
+                // Override main slate image
+                //  changeImageWithAnimation(imagename: "lavagna_success")
+                self.view.sendSubview(toBack: fgButton)
+                self.view.bringSubview(toFront: adBannerView!)
+                
+                
+                self.view.sendSubview(toBack: wallpaperImage)
+                // Date today
+                let date:Date = Date()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "dd-MM-yyyy"
+                dateDataLoad = formatter.string(from: date)
+                
+                print("Data loaded on: " + dateDataLoad)
+                navBarTitle.title = dateDataLoad
+                //  dateDataLoad = "10-03-2017"
+                enrichDatesToCheck(previousDate: dateDataLoad)
+                let update:String = checkIfUpdateIsAvailable()
+                print(update)
+                
+                markDataLoaded()
+            }
+        }else if(loadDataButton.currentImage == UIImage.init(named: "reset_dati")){
+            let alert = UIAlertController(title: "Sei sicuro di voler eliminare tutti i dati?", message: "Perderai tutte le quotazioni e gli assegnamenti effettuati fino ad ora.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            // Create the actions
+            let okAction = UIAlertAction(title: "Si, sono sicuro", style: UIAlertActionStyle.default) {
+                UIAlertAction in
+                NSLog("OK Pressed")
+                
+                self.navBarTitle.title = "FantAsta"
+                
+                // reset all data
+                portieri = []
+                difensori = []
+                centrocampisti = []
+                attaccanti = []
+                extracted = []
+                lastPlayer = nil
+                
+                
+                self.fgButton.imageView?.image = UIImage(named: "fgPaper")
+                
+                // Reload badge again
+                self.reloadBadge()
+                
+                // Disable second and third tab until click on button
+                let tabItems = self.tabBarController?.tabBar.items as NSArray!
+                let generatore = tabItems?[1] as! UITabBarItem
+                let listaQuot = tabItems?[2] as! UITabBarItem
+                generatore.isEnabled = false
+                listaQuot.isEnabled = false
+                
+                self.loadDataButton.setImage(UIImage.init(named: "carica_dati"),for:.normal)
+                self.loadDataButton.isEnabled = false
+                self.fgButton.isEnabled = true
+            }
+            let cancelAction = UIAlertAction(title: "No, annulla", style: UIAlertActionStyle.cancel) {
+                UIAlertAction in
+                NSLog("Cancel Pressed")
+            }
+            
+            // Add the actions
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            
+            DispatchQueue.main.async {
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
@@ -204,11 +252,6 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             self.bannerView.isHidden = true
             self.view.bringSubview(toFront: fgButton!)
         }
-        
-      //  self.signalButton.
-        self.resetDatiButton.isEnabled = false
-        self.resetDatiButton.layer.cornerRadius = 16
-        self.loadDataButton.layer.cornerRadius = 16
         
         // check is about true
         if isConnectedToNetwork() == true
@@ -272,11 +315,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             self.fgButton.imageView?.image = UIImage(named: "fgPaper-loaded")
             
             // Disable button
-            self.resetDatiButton.isEnabled = true
-            self.loadDataButton.isEnabled = false
-            self.fgButton.isEnabled = false
-            self.loadDataButton.setTitle("Dati caricati", for: .normal)
-            self.loadDataButton.backgroundColor = UIColor(red:0.0,green:128/255.0,blue:0.0,alpha:1.0)
+            self.loadDataButton.imageView?.image = UIImage.init(named: "reset_dati")
             
             // Override main slate image
            // changeImageWithAnimation(imagename: "lavagna_success")
@@ -290,7 +329,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             // Now set the badge of the third tab
             tabItem.badgeValue = String(randomContent.filter{ $0.marked == true }.count)
             
-            self.labelUpdate.text = "Quotazioni aggiornate al " + dateDataLoad
+            navBarTitle.title = dateDataLoad
             // TODO : HERE YOU HAVE TO CHECK UPDATE!!!
             enrichDatesToCheck(previousDate: dateDataLoad)
             let update:String = checkIfUpdateIsAvailable()
@@ -397,7 +436,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
                     players.append(contentsOf: centrocampisti)
                     players.append(contentsOf: attaccanti)
                     
-                    self.labelUpdate.text = "Quotazioni aggiornate al " + update
+                    self.navBarTitle.title = update
                     
                     // self.view.sendSubview(toBack: self.lavagnaOkimage)
                     //   self.changeImageWithAnimation(imagename: "")
@@ -487,63 +526,6 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
        self.fgButton.isEnabled = false
         
     }
-    
-    @IBAction func resetData(_ sender: Any) {
-        
-        let alert = UIAlertController(title: "Sei sicuro di voler eliminare tutti i dati?", message: "Perderai tutte le quotazioni e gli assegnamenti effettuati fino ad ora.", preferredStyle: UIAlertControllerStyle.alert)
-        
-        // Create the actions
-        let okAction = UIAlertAction(title: "Si, sono sicuro", style: UIAlertActionStyle.default) {
-            UIAlertAction in
-            NSLog("OK Pressed")
-            
-            self.labelUpdate.text = ""
-            
-            // reset all data
-            portieri = []
-            difensori = []
-            centrocampisti = []
-            attaccanti = []
-            extracted = []
-            lastPlayer = nil
-            
-            
-            self.fgButton.imageView?.image = UIImage(named: "fgPaper")
-            
-            // Reload badge again
-            self.reloadBadge()
-            
-            // Disable second and third tab until click on button
-            let tabItems = self.tabBarController?.tabBar.items as NSArray!
-            let generatore = tabItems?[1] as! UITabBarItem
-            let listaQuot = tabItems?[2] as! UITabBarItem
-            generatore.isEnabled = false
-            listaQuot.isEnabled = false
-            
-            self.resetDatiButton.isEnabled = false
-            self.fgButton.isEnabled = true
-            
-            self.loadDataButton.setTitle("Carica dati", for: .normal)
-            self.loadDataButton.backgroundColor = UIColor.gray
-            
-           // self.view.sendSubview(toBack: self.lavagnaOkimage)
-         //   self.changeImageWithAnimation(imagename: "")
-            
-        }
-        let cancelAction = UIAlertAction(title: "No, annulla", style: UIAlertActionStyle.cancel) {
-            UIAlertAction in
-            NSLog("Cancel Pressed")
-        }
-        
-        // Add the actions
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
-        
-        DispatchQueue.main.async {
-            self.present(alert, animated: true, completion: nil)
-            }
-    }
-    
     
     // TODO: see better this point
     @IBAction func sendBug(_ sender: Any) {

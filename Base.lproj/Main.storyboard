@@ -6,8 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -61,20 +59,6 @@
                                     <constraint firstAttribute="height" constant="67" id="X4M-5V-wId"/>
                                 </constraints>
                             </view>
-                            <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1by-1e-2um">
-                                <rect key="frame" x="23" y="272" width="149" height="40"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="149" id="frB-9r-2KS"/>
-                                    <constraint firstAttribute="height" constant="40" id="g1R-pC-9lF"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
-                                <color key="tintColor" white="1" alpha="0.60000002379999995" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Carica dati"/>
-                                <connections>
-                                    <action selector="loadData:" destination="9pv-A4-QxB" eventType="touchDown" id="4Ie-gN-y3N"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="onw-VZ-lne">
                                 <rect key="frame" x="23" y="99" width="280" height="116"/>
                                 <constraints>
@@ -86,16 +70,6 @@
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wEg-d5-mse">
-                                <rect key="frame" x="195" y="272" width="149" height="40"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="17"/>
-                                <color key="tintColor" white="1" alpha="0.60000002379999995" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Reset dati"/>
-                                <connections>
-                                    <action selector="resetData:" destination="9pv-A4-QxB" eventType="touchDown" id="GbL-XC-yKm"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallpaperapp" translatesAutoresizingMaskIntoConstraints="NO" id="gA3-9X-zvP">
                                 <rect key="frame" x="0.0" y="78" width="444" height="227"/>
                                 <constraints>
@@ -122,43 +96,38 @@
                                     <action selector="fgClicked:" destination="9pv-A4-QxB" eventType="touchDown" id="xFt-AS-L7X"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CiI-tG-ooW">
-                                <rect key="frame" x="0.0" y="313" width="375" height="36"/>
+                            <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1by-1e-2um">
+                                <rect key="frame" x="55" y="270" width="264" height="87"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="X7q-JY-UEl"/>
-                                    <constraint firstAttribute="width" constant="375" id="sfj-QP-gZU"/>
+                                    <constraint firstAttribute="width" constant="264" id="frB-9r-2KS"/>
+                                    <constraint firstAttribute="height" constant="87" id="g1R-pC-9lF"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="15"/>
-                                <color key="textColor" red="0.26733210682868958" green="0.69194626808166504" blue="0.36213669180870056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <color key="tintColor" white="1" alpha="0.60000002379999995" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Carica dati" image="carica_dati"/>
+                                <connections>
+                                    <action selector="loadData:" destination="9pv-A4-QxB" eventType="touchDown" id="4Ie-gN-y3N"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Kza-Ap-zni" secondAttribute="trailing" id="0uE-1o-hGr"/>
-                            <constraint firstItem="1by-1e-2um" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="7" id="2N0-bx-6wf"/>
+                            <constraint firstItem="1by-1e-2um" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" constant="39" id="2N0-bx-6wf"/>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="Kza-Ap-zni" secondAttribute="bottom" id="81i-UW-uZh"/>
                             <constraint firstAttribute="trailing" secondItem="eYj-C1-WjO" secondAttribute="trailing" id="C1s-zr-mgF"/>
                             <constraint firstItem="gA3-9X-zvP" firstAttribute="top" secondItem="eYj-C1-WjO" secondAttribute="bottom" id="CCx-Lr-P44"/>
                             <constraint firstAttribute="trailingMargin" secondItem="386-T4-nMz" secondAttribute="trailing" constant="-5" id="GgH-cf-aAr"/>
-                            <constraint firstItem="CiI-tG-ooW" firstAttribute="top" secondItem="gA3-9X-zvP" secondAttribute="bottom" constant="8" symbolic="YES" id="MDE-tH-d6m"/>
-                            <constraint firstItem="wEg-d5-mse" firstAttribute="top" secondItem="1by-1e-2um" secondAttribute="top" id="VQJ-Ot-vvt"/>
-                            <constraint firstItem="onw-VZ-lne" firstAttribute="leading" secondItem="1by-1e-2um" secondAttribute="leading" id="X7k-7t-oFn"/>
+                            <constraint firstItem="onw-VZ-lne" firstAttribute="leading" secondItem="1by-1e-2um" secondAttribute="leading" constant="-32" id="X7k-7t-oFn"/>
                             <constraint firstItem="gA3-9X-zvP" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="YhI-TL-fyd"/>
-                            <constraint firstItem="wEg-d5-mse" firstAttribute="leading" secondItem="1by-1e-2um" secondAttribute="trailing" constant="23" id="ZJT-eT-aqH"/>
-                            <constraint firstItem="CiI-tG-ooW" firstAttribute="leading" secondItem="gA3-9X-zvP" secondAttribute="leading" id="aE6-uy-Dth"/>
-                            <constraint firstItem="wEg-d5-mse" firstAttribute="baseline" secondItem="1by-1e-2um" secondAttribute="firstBaseline" id="c3D-VJ-fL9"/>
-                            <constraint firstItem="wEg-d5-mse" firstAttribute="firstBaseline" secondItem="1by-1e-2um" secondAttribute="baseline" id="ceJ-An-bDU"/>
                             <constraint firstItem="gA3-9X-zvP" firstAttribute="top" secondItem="eYj-C1-WjO" secondAttribute="bottom" id="edw-sa-cFQ"/>
-                            <constraint firstItem="1by-1e-2um" firstAttribute="top" secondItem="eYj-C1-WjO" secondAttribute="bottom" constant="194" id="gIV-hv-Sq6"/>
+                            <constraint firstItem="1by-1e-2um" firstAttribute="top" secondItem="eYj-C1-WjO" secondAttribute="bottom" constant="192" id="gIV-hv-Sq6"/>
                             <constraint firstItem="eYj-C1-WjO" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="gY9-mN-kxV"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wEg-d5-mse" secondAttribute="trailing" constant="15" id="hDu-dB-dOu"/>
                             <constraint firstItem="gA3-9X-zvP" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="mqd-zJ-0Mg"/>
                             <constraint firstItem="Kza-Ap-zni" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="mv1-tL-tpM"/>
                             <constraint firstItem="LFb-QL-g8F" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="naD-7B-DeH"/>
                             <constraint firstItem="386-T4-nMz" firstAttribute="top" secondItem="LFb-QL-g8F" secondAttribute="top" id="qBB-b8-EhQ"/>
                             <constraint firstItem="eYj-C1-WjO" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="rVF-PN-LJ9"/>
-                            <constraint firstItem="LFb-QL-g8F" firstAttribute="top" secondItem="1by-1e-2um" secondAttribute="bottom" constant="45" id="upX-oL-UKS"/>
+                            <constraint firstItem="LFb-QL-g8F" firstAttribute="top" secondItem="1by-1e-2um" secondAttribute="bottom" id="upX-oL-UKS"/>
                             <constraint firstItem="onw-VZ-lne" firstAttribute="top" secondItem="eYj-C1-WjO" secondAttribute="bottom" constant="21" id="yRZ-D4-V0W"/>
                         </constraints>
                     </view>
@@ -166,11 +135,10 @@
                     <connections>
                         <outlet property="bannerView" destination="Kza-Ap-zni" id="fMB-At-ba2"/>
                         <outlet property="fgButton" destination="LFb-QL-g8F" id="8Sm-Cz-bvA"/>
-                        <outlet property="labelUpdate" destination="CiI-tG-ooW" id="B6C-8g-pcG"/>
                         <outlet property="loadDataButton" destination="1by-1e-2um" id="X9L-uA-zbR"/>
                         <outlet property="loadDatiButton" destination="1by-1e-2um" id="2bU-93-euw"/>
                         <outlet property="navBar" destination="eYj-C1-WjO" id="ECU-9Q-wcX"/>
-                        <outlet property="resetDatiButton" destination="wEg-d5-mse" id="1wA-C8-vQs"/>
+                        <outlet property="navBarTitle" destination="QXG-Gq-v1X" id="JeT-zD-adD"/>
                         <outlet property="signalButton" destination="zd5-Op-PNY" id="vQX-tb-z8Z"/>
                         <outlet property="wallpaperImage" destination="gA3-9X-zvP" id="O4I-zC-f6P"/>
                     </connections>
@@ -257,12 +225,12 @@
                                 <rect key="frame" x="0.0" y="376" width="375" height="200"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ifi-V0-1CF">
-                                <rect key="frame" x="162" y="548" width="52" height="52"/>
+                                <rect key="frame" x="85" y="533" width="206" height="93"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="52" id="8ya-Xn-tiS"/>
-                                    <constraint firstAttribute="height" constant="52" id="VQx-mZ-emn"/>
+                                    <constraint firstAttribute="width" constant="206" id="8ya-Xn-tiS"/>
+                                    <constraint firstAttribute="height" constant="93" id="VQx-mZ-emn"/>
                                 </constraints>
-                                <state key="normal" image="plus">
+                                <state key="normal" image="assegna_20">
                                     <color key="titleColor" red="0.24845447183604105" green="0.53622537851333618" blue="0.1776524991141695" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -335,7 +303,7 @@
                             <constraint firstItem="HWF-0X-uvL" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="C2S-5p-jf2"/>
                             <constraint firstItem="XS2-71-DPV" firstAttribute="top" secondItem="fJj-8Z-gvJ" secondAttribute="bottom" constant="122" id="FLT-Ri-VO0"/>
                             <constraint firstItem="XS2-71-DPV" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="NOP-gP-P6P"/>
-                            <constraint firstItem="ifi-V0-1CF" firstAttribute="top" secondItem="XS2-71-DPV" secondAttribute="bottom" constant="23" id="Nhf-v8-DJZ"/>
+                            <constraint firstItem="ifi-V0-1CF" firstAttribute="top" secondItem="XS2-71-DPV" secondAttribute="bottom" constant="8" id="Nhf-v8-DJZ"/>
                             <constraint firstItem="Chn-sN-4PE" firstAttribute="top" secondItem="zP1-Pg-IIp" secondAttribute="top" id="O9J-jZ-SkE"/>
                             <constraint firstItem="GUM-4U-sY5" firstAttribute="top" secondItem="fJj-8Z-gvJ" secondAttribute="bottom" constant="34" id="OT1-ci-c2a"/>
                             <constraint firstItem="C8H-nw-Sm4" firstAttribute="leading" secondItem="lKF-7d-PGS" secondAttribute="trailing" constant="13" id="Oup-EK-K2i"/>
@@ -347,7 +315,7 @@
                             <constraint firstItem="C8H-nw-Sm4" firstAttribute="top" secondItem="fJj-8Z-gvJ" secondAttribute="bottom" constant="34" id="Src-Sl-prg"/>
                             <constraint firstAttribute="trailing" secondItem="cjd-Vx-6ys" secondAttribute="trailing" constant="-10" id="YAw-jq-ps8"/>
                             <constraint firstItem="HWF-0X-uvL" firstAttribute="top" secondItem="zP1-Pg-IIp" secondAttribute="bottom" constant="8" id="abb-8u-gX5"/>
-                            <constraint firstItem="ifi-V0-1CF" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="afv-y4-BwR"/>
+                            <constraint firstItem="ifi-V0-1CF" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" constant="0.5" id="afv-y4-BwR"/>
                             <constraint firstAttribute="trailing" secondItem="Dwi-AH-yWD" secondAttribute="trailing" id="b4V-WU-4Gw"/>
                             <constraint firstItem="gBg-dB-C4b" firstAttribute="top" secondItem="zP1-Pg-IIp" secondAttribute="top" id="ey3-i9-TxR"/>
                             <constraint firstAttribute="trailing" secondItem="fJj-8Z-gvJ" secondAttribute="trailing" constant="-1" id="fjs-0W-UKo"/>
@@ -622,7 +590,7 @@
                             <constraint firstItem="p4F-rc-cxI" firstAttribute="top" secondItem="rXh-Ew-jFd" secondAttribute="bottom" constant="11" id="xWe-mC-RZK"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Quotazioni" image="sort-button-with-three-lines" id="PkP-kp-Sya"/>
+                    <tabBarItem key="tabBarItem" title="Quotazioni" image="lista_20" id="PkP-kp-Sya"/>
                     <connections>
                         <outlet property="listaNavBar" destination="1G8-St-ahg" id="Oel-J0-e7v"/>
                         <outlet property="picker" destination="p4F-rc-cxI" id="uPG-en-trO"/>
@@ -661,16 +629,17 @@
     </scenes>
     <resources>
         <image name="4896" width="3964" height="2394"/>
+        <image name="assegna_20" width="501" height="222"/>
+        <image name="carica_dati" width="687" height="225"/>
         <image name="cloud-download" width="25" height="16"/>
         <image name="fgPaper" width="256" height="256"/>
         <image name="forward-arrow" width="25" height="21"/>
         <image name="fplayer" width="25" height="25"/>
         <image name="gazzetta" width="256" height="256"/>
         <image name="linea" width="500" height="200"/>
+        <image name="lista_20" width="25" height="33"/>
         <image name="message-closed-envelope" width="25" height="25"/>
-        <image name="plus" width="52" height="52"/>
         <image name="settings" width="25" height="25"/>
-        <image name="sort-button-with-three-lines" width="25" height="16"/>
         <image name="wallpaperapp" width="640" height="400"/>
     </resources>
 </document>

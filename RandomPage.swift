@@ -6,6 +6,8 @@
 //  Copyright © 2017 Patrizio Pezzilli. All rights reserved.
 //
 import UIKit
+import AVFoundation
+import AudioToolbox
 
 var navBarTitle:String = "Portieri"
 var picked:String = "portieri"
@@ -19,6 +21,7 @@ var available:Bool = false
 var sezione:String = ""
 var lastPlayer:Player? = nil
 
+var player: AVAudioPlayer?
 
 // player storage
 var previousPlayer:Player? = nil
@@ -66,6 +69,22 @@ class RandomPage: UIViewController{
     
     var first: Homepage = Homepage(nibName: nil, bundle: nil)
     var role: String = ""
+    
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "click", withExtension: "mp3") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            
+            player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -353,6 +372,9 @@ class RandomPage: UIViewController{
     }
     
     @IBAction func assignEvent(_ sender: Any) {
+        playSound()
+        AudioServicesPlaySystemSound(1519)
+        
         // retrieved player touched
         let touched:String! = playerName
         print("Assegned " + touched)
@@ -551,6 +573,7 @@ class RandomPage: UIViewController{
     
     
     @IBAction func click(_ sender: Any) {
+        AudioServicesPlaySystemSound(1519)
         available = false
         let tabItems = self.tabBarController?.tabBar.items as NSArray!
         
