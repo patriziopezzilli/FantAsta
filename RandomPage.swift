@@ -20,6 +20,7 @@ var remains:Int = 100
 var available:Bool = false
 var sezione:String = ""
 var lastPlayer:Player? = nil
+var soundOn:Bool = true
 
 var player: AVAudioPlayer?
 
@@ -132,6 +133,12 @@ class RandomPage: UIViewController{
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.right:
                 print("Swiped right")
+                self.star1.image = nil
+                self.star2.image = nil
+                self.star3.image = nil
+                self.star4.image = nil
+                self.star5.image = nil
+                
                 if(remains > 1){
                     // I have to put the left  player, and set actual as next and previous null
                     if(previousPlayer != nil){
@@ -221,19 +228,19 @@ class RandomPage: UIViewController{
                         self.view.bringSubview(toFront: star1);
                         let myNumber = Int(tempPlayer.quotation)
                         
-                        if(myNumber!>2){
+                        if(myNumber! > 2){
                             self.star2.image = UIImage(named:"star")
                             self.view.bringSubview(toFront: star2);
                         }
-                        if(myNumber!>7){
+                        if(myNumber! > 7){
                             self.star3.image = UIImage(named:"star")
                             self.view.bringSubview(toFront: star3);
                         }
-                        if(myNumber!>10){
+                        if(myNumber! > 10){
                             self.star4.image = UIImage(named:"star")
                             self.view.bringSubview(toFront: star4);
                         }
-                        if(myNumber!>20){
+                        if(myNumber! > 20){
                             self.star5.image = UIImage(named:"star")
                             self.view.bringSubview(toFront: star5);
                         }
@@ -246,6 +253,12 @@ class RandomPage: UIViewController{
                 print("Swiped down")
             case UISwipeGestureRecognizerDirection.left:
                 print("Swiped left")
+                self.star1.image = nil
+                self.star2.image = nil
+                self.star3.image = nil
+                self.star4.image = nil
+                self.star5.image = nil
+                
                 if(remains > 1){
                     // I have to put the right player, extract new one for next and set actual as previous
                     // Check previous
@@ -338,19 +351,19 @@ class RandomPage: UIViewController{
                     self.view.bringSubview(toFront: star1);
                     let myNumber = Int(tempPlayer.quotation)
                     
-                    if(myNumber!>2){
+                    if(myNumber! > 2){
                         self.star2.image = UIImage(named:"star")
                         self.view.bringSubview(toFront: star2);
                     }
-                    if(myNumber!>7){
+                    if(myNumber! > 7){
                         self.star3.image = UIImage(named:"star")
                         self.view.bringSubview(toFront: star3);
                     }
-                    if(myNumber!>10){
+                    if(myNumber! > 10){
                         self.star4.image = UIImage(named:"star")
                         self.view.bringSubview(toFront: star4);
                     }
-                    if(myNumber!>20){
+                    if(myNumber! > 20){
                         self.star5.image = UIImage(named:"star")
                         self.view.bringSubview(toFront: star5);
                     }
@@ -372,7 +385,9 @@ class RandomPage: UIViewController{
     }
     
     @IBAction func assignEvent(_ sender: Any) {
+        if(soundOn){
         playSound()
+        }
         AudioServicesPlaySystemSound(1519)
         
         // retrieved player touched
@@ -551,19 +566,19 @@ class RandomPage: UIViewController{
         self.view.bringSubview(toFront: star1);
         let myNumber = Int(tempPlayer.quotation)
         
-        if(myNumber!>2){
+        if(myNumber! > 2){
             self.star2.image = UIImage(named:"star")
             self.view.bringSubview(toFront: star2);
         }
-        if(myNumber!>7){
+        if(myNumber! > 7){
             self.star3.image = UIImage(named:"star")
             self.view.bringSubview(toFront: star3);
         }
-        if(myNumber!>10){
+        if(myNumber! > 10){
             self.star4.image = UIImage(named:"star")
             self.view.bringSubview(toFront: star4);
         }
-        if(myNumber!>20){
+        if(myNumber! > 20){
             self.star5.image = UIImage(named:"star")
             self.view.bringSubview(toFront: star5);
         }
@@ -691,19 +706,19 @@ class RandomPage: UIViewController{
                 self.view.bringSubview(toFront: star1);
                 let myNumber = Int(tempPlayer.quotation)
                 
-                if(myNumber!>2){
+                if(myNumber! > 2){
                     self.star2.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star2);
                 }
-                if(myNumber!>7){
+                if(myNumber! > 7){
                     self.star3.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star3);
                 }
-                if(myNumber!>10){
+                if(myNumber! > 10){
                     self.star4.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star4);
                 }
-                if(myNumber!>20){
+                if(myNumber! > 20){
                     self.star5.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star5);
                 }
@@ -803,19 +818,19 @@ class RandomPage: UIViewController{
                 self.view.bringSubview(toFront: star1);
                 let myNumber = Int(tempPlayer.quotation)
                 
-                if(myNumber!>2){
+                if(myNumber! > 2){
                     self.star2.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star2);
                 }
-                if(myNumber!>7){
+                if(myNumber! > 7){
                     self.star3.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star3);
                 }
-                if(myNumber!>10){
+                if(myNumber! > 10){
                     self.star4.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star4);
                 }
-                if(myNumber!>20){
+                if(myNumber! > 20){
                     self.star5.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star5);
                 }
@@ -922,19 +937,19 @@ class RandomPage: UIViewController{
                 self.view.bringSubview(toFront: star1);
                 let myNumber = Int(tempPlayer!.quotation)
                 
-                if(myNumber!>2){
+                if(myNumber! > 2){
                     self.star2.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star2);
                 }
-                if(myNumber!>7){
+                if(myNumber! > 7){
                     self.star3.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star3);
                 }
-                if(myNumber!>10){
+                if(myNumber! > 10){
                     self.star4.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star4);
                 }
-                if(myNumber!>20){
+                if(myNumber! > 20){
                     self.star5.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star5);
                 }
@@ -1139,19 +1154,19 @@ class RandomPage: UIViewController{
                         self.view.bringSubview(toFront: star1);
                         let myNumber = Int(lastPlayer!.quotation)
                         
-                        if(myNumber!>2){
+                        if(myNumber! > 2){
                             self.star2.image = UIImage(named:"star")
                             self.view.bringSubview(toFront: star2);
                         }
-                        if(myNumber!>7){
+                        if(myNumber! > 7){
                             self.star3.image = UIImage(named:"star")
                             self.view.bringSubview(toFront: star3);
                         }
-                        if(myNumber!>10){
+                        if(myNumber! > 10){
                             self.star4.image = UIImage(named:"star")
                             self.view.bringSubview(toFront: star4);
                         }
-                        if(myNumber!>20){
+                        if(myNumber! > 20){
                             self.star5.image = UIImage(named:"star")
                             self.view.bringSubview(toFront: star5);
                         }

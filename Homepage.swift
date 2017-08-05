@@ -27,6 +27,30 @@ var attaccantiCount:Int = 0;
 
 var dateDataLoad:String = ""
 
+extension MutableCollection where Indices.Iterator.Element == Index {
+    /// Shuffles the contents of this collection.
+    mutating func shuffle() {
+        let c = count
+        guard c > 1 else { return }
+        
+        for (firstUnshuffled , unshuffledCount) in zip(indices, stride(from: c, to: 1, by: -1)) {
+            let d: IndexDistance = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
+            guard d != 0 else { continue }
+            let i = index(firstUnshuffled, offsetBy: d)
+            swap(&self[firstUnshuffled], &self[i])
+        }
+    }
+}
+
+extension Sequence {
+    /// Returns an array with the contents of this sequence, shuffled.
+    func shuffled() -> [Iterator.Element] {
+        var result = Array(self)
+        result.shuffle()
+        return result
+    }
+}
+
 extension Date {
     var tomorrow: Date? {
         return Calendar.current.date(byAdding: .day, value: 1, to: self)
@@ -60,91 +84,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
         if(loadDataButton.currentImage == UIImage.init(named: "carica_dati")){
             print("Loading data..")
             
-            // Load data section (now offline, next online)
-            var myCSVContents = Array<Dictionary<String, String>>()
-            
-            /*   Initialize goalkeeper    */
-            
-            CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "portieri", withFunction: {
-                
-                (aRow:Dictionary<String, String>) in
-                
-                myCSVContents.append(aRow)
-                
-            })
-            
-            for entry in myCSVContents {
-                // parse string from role and getting values.
-                let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-                let goalKeeperTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
-                portieri.append(goalKeeperTemp)
-                portieriCount += 1
-            }
-            portieri.sort { $0.name < $1.name }
-            
-            var myCSVContents_2 = Array<Dictionary<String, String>>()
-            
-            /*   Initialize defenders    */
-            CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "difensori", withFunction: {
-                
-                (aRow:Dictionary<String, String>) in
-                
-                myCSVContents_2.append(aRow)
-                
-            })
-            
-            for entry in myCSVContents_2 {
-                // parse string from role and getting values.
-                let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-                let defenderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
-                difensori.append(defenderTemp)
-                difensoriCount += 1
-            }
-            difensori.sort { $0.name < $1.name }
-            var myCSVContents_3 = Array<Dictionary<String, String>>()
-            
-            /*   Initialize middlefielders    */
-            CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "centrocampisti", withFunction: {
-                
-                (aRow:Dictionary<String, String>) in
-                
-                myCSVContents_3.append(aRow)
-                
-            })
-            
-            for entry in myCSVContents_3 {
-                // parse string from role and getting values.
-                let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-                let middlefielderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
-                centrocampisti.append(middlefielderTemp)
-                centrocampistiCount += 1
-            }
-            centrocampisti.sort { $0.name < $1.name }
-            var myCSVContents_4 = Array<Dictionary<String, String>>()
-            
-            /*   Initialize striker    */
-            CSVScanner.runFunctionOnRowsFromFile(data: "default", theColumnNames: ["title", "body", "category"], withFileName: "attaccanti", withFunction: {
-                
-                (aRow:Dictionary<String, String>) in
-                
-                myCSVContents_4.append(aRow)
-                
-            })
-            
-            for entry in myCSVContents_4 {
-                // parse string from role and getting values.
-                let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-                let attTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
-                attaccanti.append(attTemp)
-                attaccantiCount += 1
-            }
-            attaccanti.sort { $0.name < $1.name }
-            
-            players.append(contentsOf: portieri)
-            players.append(contentsOf: difensori)
-            players.append(contentsOf: centrocampisti)
-            players.append(contentsOf: attaccanti)
-            
+            loadPlayers(update: "default")
             
             // enable second and third tab until click on button
             let tabItems = self.tabBarController?.tabBar.items as NSArray!
@@ -168,8 +108,6 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
                 // Disable button
                 loadDataButton.setImage(UIImage.init(named: "reset_dati"),for:.normal)
                 
-                // Override main slate image
-                //  changeImageWithAnimation(imagename: "lavagna_success")
                 self.view.sendSubview(toBack: fgButton)
                 self.view.bringSubview(toFront: adBannerView!)
                 
@@ -205,7 +143,6 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
                 difensori = []
                 centrocampisti = []
                 attaccanti = []
-                extracted = []
                 lastPlayer = nil
                 
                 
@@ -315,7 +252,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             self.fgButton.imageView?.image = UIImage(named: "fgPaper-loaded")
             
             // Disable button
-            self.loadDataButton.imageView?.image = UIImage.init(named: "reset_dati")
+            self.loadDataButton.setImage(UIImage.init(named: "reset_dati"), for: .normal)
             
             // Override main slate image
            // changeImageWithAnimation(imagename: "lavagna_success")
@@ -352,89 +289,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
                     
                     print("Loading data..")
                     // Load data section (now offline, next online)
-                    var myCSVContents = Array<Dictionary<String, String>>()
-                    
-                    /*   Initialize goalkeeper    */
-                    
-                    CSVScanner.runFunctionOnRowsFromFile(data: update, theColumnNames: ["title", "body", "category"], withFileName: "portieri", withFunction: {
-                        
-                        (aRow:Dictionary<String, String>) in
-                        
-                        myCSVContents.append(aRow)
-                        
-                    })
-                    
-                    for entry in myCSVContents {
-                        // parse string from role and getting values.
-                        let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-                        let goalKeeperTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: self.mockImage!)
-                        portieri.append(goalKeeperTemp)
-                        portieriCount += 1
-                    }
-                    portieri.sort { $0.name < $1.name }
-                    
-                    var myCSVContents_2 = Array<Dictionary<String, String>>()
-                    
-                    /*   Initialize defenders    */
-                    CSVScanner.runFunctionOnRowsFromFile(data: update, theColumnNames: ["title", "body", "category"], withFileName: "difensori", withFunction: {
-                        
-                        (aRow:Dictionary<String, String>) in
-                        
-                        myCSVContents_2.append(aRow)
-                        
-                    })
-                    
-                    for entry in myCSVContents_2 {
-                        // parse string from role and getting values.
-                        let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-                        let defenderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: self.mockImage!)
-                        difensori.append(defenderTemp)
-                        difensoriCount += 1
-                    }
-                    difensori.sort { $0.name < $1.name }
-                    var myCSVContents_3 = Array<Dictionary<String, String>>()
-                    
-                    /*   Initialize middlefielders    */
-                    CSVScanner.runFunctionOnRowsFromFile(data: update, theColumnNames: ["title", "body", "category"], withFileName: "centrocampisti", withFunction: {
-                        
-                        (aRow:Dictionary<String, String>) in
-                        
-                        myCSVContents_3.append(aRow)
-                        
-                    })
-                    
-                    for entry in myCSVContents_3 {
-                        // parse string from role and getting values.
-                        let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-                        let middlefielderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: self.mockImage!)
-                        centrocampisti.append(middlefielderTemp)
-                        centrocampistiCount += 1
-                    }
-                    centrocampisti.sort { $0.name < $1.name }
-                    var myCSVContents_4 = Array<Dictionary<String, String>>()
-                    
-                    /*   Initialize striker    */
-                    CSVScanner.runFunctionOnRowsFromFile(data: update, theColumnNames: ["title", "body", "category"], withFileName: "attaccanti", withFunction: {
-                        
-                        (aRow:Dictionary<String, String>) in
-                        
-                        myCSVContents_4.append(aRow)
-                        
-                    })
-                    
-                    for entry in myCSVContents_4 {
-                        // parse string from role and getting values.
-                        let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
-                        let attTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: self.mockImage!)
-                        attaccanti.append(attTemp)
-                        attaccantiCount += 1
-                    }
-                    attaccanti.sort { $0.name < $1.name }
-                    
-                    players.append(contentsOf: portieri)
-                    players.append(contentsOf: difensori)
-                    players.append(contentsOf: centrocampisti)
-                    players.append(contentsOf: attaccanti)
+                    self.loadPlayers(update: update)
                     
                     self.navBarTitle.title = update
                     
@@ -667,6 +522,102 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             let imagePlayer:UIImage = UIImage(named: "no_avatar")!
             player.setImage(toSet: imagePlayer)
         }
+    }
+    
+    func loadPlayers(update:String){
+        players.removeAll()
+        
+        // Load data section (now offline, next online)
+        var myCSVContents = Array<Dictionary<String, String>>()
+        
+        /*   Initialize goalkeeper    */
+        
+        CSVScanner.runFunctionOnRowsFromFile(data: update, theColumnNames: ["title", "body", "category"], withFileName: "portieri", withFunction: {
+            
+            (aRow:Dictionary<String, String>) in
+            
+            myCSVContents.append(aRow)
+            
+        })
+        
+        for entry in myCSVContents {
+            // parse string from role and getting values.
+            let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
+            let goalKeeperTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
+            portieri.append(goalKeeperTemp)
+            portieriCount += 1
+        }
+        
+        var myCSVContents_2 = Array<Dictionary<String, String>>()
+        
+        /*   Initialize defenders    */
+        CSVScanner.runFunctionOnRowsFromFile(data: update, theColumnNames: ["title", "body", "category"], withFileName: "difensori", withFunction: {
+            
+            (aRow:Dictionary<String, String>) in
+            
+            myCSVContents_2.append(aRow)
+            
+        })
+        
+        for entry in myCSVContents_2 {
+            // parse string from role and getting values.
+            let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
+            let defenderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
+            difensori.append(defenderTemp)
+            difensoriCount += 1
+        }
+        
+        var myCSVContents_3 = Array<Dictionary<String, String>>()
+        
+        /*   Initialize middlefielders    */
+        CSVScanner.runFunctionOnRowsFromFile(data: update, theColumnNames: ["title", "body", "category"], withFileName: "centrocampisti", withFunction: {
+            
+            (aRow:Dictionary<String, String>) in
+            
+            myCSVContents_3.append(aRow)
+            
+        })
+        
+        for entry in myCSVContents_3 {
+            // parse string from role and getting values.
+            let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
+            let middlefielderTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
+            centrocampisti.append(middlefielderTemp)
+            centrocampistiCount += 1
+        }
+        
+        var myCSVContents_4 = Array<Dictionary<String, String>>()
+        
+        /*   Initialize striker    */
+        CSVScanner.runFunctionOnRowsFromFile(data: update, theColumnNames: ["title", "body", "category"], withFileName: "attaccanti", withFunction: {
+            
+            (aRow:Dictionary<String, String>) in
+            
+            myCSVContents_4.append(aRow)
+            
+        })
+        
+        for entry in myCSVContents_4 {
+            // parse string from role and getting values.
+            let playerVariables = entry["title"]!.characters.split{$0 == ";"}.map(String.init)
+            let attTemp = Player(name: playerVariables[2],team: playerVariables[3],quotation:playerVariables[4],role:playerVariables[1], marked: false, img: mockImage!)
+            attaccanti.append(attTemp)
+            attaccantiCount += 1
+        }
+        
+        players.append(contentsOf: portieri)
+        players.append(contentsOf: difensori)
+        players.append(contentsOf: centrocampisti)
+        players.append(contentsOf: attaccanti)
+
+    }
+    
+    func randomizeAllList(){
+       portieri = portieri.shuffled()
+       difensori = difensori.shuffled()
+       centrocampisti = centrocampisti.shuffled()
+       attaccanti = attaccanti.shuffled()
+       players = players.shuffled()
     }
 }
 

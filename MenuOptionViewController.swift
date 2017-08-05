@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class MenuOptionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
@@ -20,6 +21,8 @@ class MenuOptionViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBOutlet weak var textView: UITextView!
     
+    @IBOutlet weak var soundButton: UIButton!
+    
     var content:[String] = ["Portieri","Difensori","Centrocampisti","Attaccanti","Tutti"]
     
     var first: Homepage = Homepage(nibName: nil, bundle: nil)
@@ -28,6 +31,19 @@ class MenuOptionViewController: UIViewController, UITableViewDelegate, UITableVi
     // cell reuse id (cells that scroll out of view can be reused)
     let cellReuseIdentifier = "cell"
 
+    @IBAction func touchSoundButton(_ sender: Any) {
+        if(soundOn){
+            print("Set audio off..")
+            AudioServicesPlaySystemSound(1519)
+            soundOn = false
+            soundButton.setImage(UIImage.init(named: "sound_off"), for: .normal)
+        }else{
+            print("Set audio on..")
+            AudioServicesPlaySystemSound(1519)
+            soundOn = true
+            soundButton.setImage(UIImage.init(named: "sound_on"), for: .normal)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +78,11 @@ class MenuOptionViewController: UIViewController, UITableViewDelegate, UITableVi
         self.resetMenuView.delegate = self
         self.resetMenuView.dataSource = self
         
+        if(soundOn){
+            soundButton.setImage(UIImage.init(named: "sound_on"), for: .normal)
+        }else{
+            soundButton.setImage(UIImage.init(named: "sound_off"), for: .normal)
+        }
     }
     
     private func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -137,28 +158,24 @@ class MenuOptionViewController: UIViewController, UITableViewDelegate, UITableVi
                 print("Resetting Goalkeeper...")
                 for object in portieri as! [Player] {
                     object.marked = false
-                    deleteFromExtracted(element: object.name)
                 }
                 dismissWithCheck()
             case 1:
                 print("Resetting Defenders...")
                 for object in difensori as! [Player] {
                     object.marked = false
-                    deleteFromExtracted(element: object.name)
                 }
                 dismissWithCheck()
             case 2:
                 print("Resetting Middlefielders...")
                 for object in centrocampisti as! [Player] {
                     object.marked = false
-                    deleteFromExtracted(element: object.name)
                 }
                 dismissWithCheck()
             case 3:
                 print("Resetting Strikers...")
                 for object in attaccanti as! [Player] {
                     object.marked = false
-                    deleteFromExtracted(element: object.name)
                 }
                 dismissWithCheck()
             default:
@@ -207,13 +224,8 @@ class MenuOptionViewController: UIViewController, UITableViewDelegate, UITableVi
             object.marked = false
         }
         
-        extracted.removeAll()
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
-    }
-    
-    func deleteFromExtracted(element: String){
-        extracted = extracted.filter(){$0 != element}
     }
     
     func dismissWithCheck(){
