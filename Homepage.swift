@@ -64,7 +64,6 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
     let pickerDataSource = ["Portieri", "Difensori", "Centrocampisti", "Attaccanti"];
     
     var dates:[String] = []
-    var adBannerView: GADBannerView?
     var interstitial: GADInterstitial?
     
     @IBOutlet weak var navBarTitle: UINavigationItem!
@@ -75,7 +74,6 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
     
     @IBOutlet weak var fgButton: UIButton!
     @IBOutlet weak var signalButton: UIButton!
-    @IBOutlet weak var wallpaperImage: UIImageView!
     
     let mockImage = UIImage(named: "no_avatar")
     
@@ -109,10 +107,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
                 loadDataButton.setImage(UIImage.init(named: "reset_dati"),for:.normal)
                 
                 self.view.sendSubview(toBack: fgButton)
-                self.view.bringSubview(toFront: adBannerView!)
                 
-                
-                self.view.sendSubview(toBack: wallpaperImage)
                 // Date today
                 let date:Date = Date()
                 let formatter = DateFormatter()
@@ -233,14 +228,6 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
         interstitial = createAndLoadInterstitial()
         print(portieri)
         
-        // Load banner
-        adBannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
-        adBannerView?.adUnitID = "ca-app-pub-0789574217127140/6699778913"
-        adBannerView?.delegate = self
-        adBannerView?.rootViewController = self
-        adBannerView?.load(GADRequest())
-        adBannerView?.frame = self.bannerView.frame;
-        
         if(portieri.count > 0){
             
             // Download player images
@@ -257,8 +244,6 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
             // Override main slate image
            // changeImageWithAnimation(imagename: "lavagna_success")
             self.view.sendSubview(toBack: fgButton)
-            self.view.bringSubview(toFront: adBannerView!)
-            self.view.sendSubview(toBack: wallpaperImage)
             
             let tabItems = self.tabBarController?.tabBar.items as NSArray!
             let tabItem = tabItems?[1] as! UITabBarItem
@@ -328,20 +313,11 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
         
         // Disable button
         self.loadDataButton.isEnabled = false
-        
-        self.view.bringSubview(toFront: adBannerView!)
-        self.view.sendSubview(toBack: wallpaperImage)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func adViewDidReceiveAd(_ bannerView: GADBannerView!) {
-        print("Banner loaded successfully")
-        self.bannerView.addSubview(adBannerView!)
-        
     }
     
     func adView(_ bannerView: GADBannerView!, didFailToReceiveAdWithError error: GADRequestError!) {
@@ -351,7 +327,7 @@ class Homepage: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate
     
     
     private func createAndLoadInterstitial() -> GADInterstitial? {
-        interstitial = GADInterstitial(adUnitID: "ca-app-pub-0789574217127140/1562425314")
+        interstitial = GADInterstitial(adUnitID: "ca-app-pub-5158008435820577/5546593276")
         
         guard let interstitial = interstitial else {
             return nil

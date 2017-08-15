@@ -45,12 +45,12 @@ class RandomPage: UIViewController{
     @IBOutlet weak var randomSurname: UILabel!
     @IBOutlet weak var randomTeam: UILabel!
     @IBOutlet weak var randomQuotation: UILabel!
-    @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var assignButton: UIButton!
     
-    @IBOutlet weak var skipButton: UIBarButtonItem!
-    
+    @IBOutlet weak var wallpaperImage: UIImageView!
     @IBOutlet weak var navBar: UINavigationItem!
+    
+    @IBOutlet weak var skipButton: UIButton!
     
     @IBOutlet weak var cardImage: UIImageView!
     
@@ -64,9 +64,6 @@ class RandomPage: UIViewController{
     // slider
     @IBOutlet weak var nextImagePlayer: UIImageView!
     @IBOutlet weak var lastImagePlayer: UIImageView!
-    
-    
-    @IBOutlet weak var wallpaperView: UIImageView!
     
     var first: Homepage = Homepage(nibName: nil, bundle: nil)
     var role: String = ""
@@ -89,10 +86,9 @@ class RandomPage: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.sendSubview(toBack: wallpaperImage)
         
         if(calculateScreenSize() < 325.0){
-            self.image.isHidden = true
             self.star1.isHidden = true
             self.star2.isHidden = true
             self.star3.isHidden = true
@@ -111,14 +107,10 @@ class RandomPage: UIViewController{
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         self.view.addGestureRecognizer(swipeLeft)
         
-        self.view.sendSubview(toBack: image)
-        
         // Wallpaper alpha view
-        wallpaperView.alpha = 0.5
         lastImagePlayer.alpha = 0.5
         nextImagePlayer.alpha = 0.5
         
-        self.view.sendSubview(toBack: wallpaperView)
         self.view.bringSubview(toFront: cardImage)
         self.view.bringSubview(toFront: lastImagePlayer)
         self.view.bringSubview(toFront: nextImagePlayer)
@@ -163,66 +155,6 @@ class RandomPage: UIViewController{
                         self.randomQuotation.text = tempPlayer.quotation
                         self.randomName.text = tempPlayer.name
                         self.role = tempPlayer.role
-                        
-                        switch tempPlayer.team {
-                        case "Atalanta":
-                            //image.image = UIImage(named:"Atalanta")
-                            changeImageWithAnimation(squadra: "Atalanta")
-                        case "Cagliari":
-                            //image.image = UIImage(named:"Cagliari")
-                            changeImageWithAnimation(squadra: "Cagliari")
-                        case "Chievo":
-                            //image.image = UIImage(named:"Chievo")
-                            changeImageWithAnimation(squadra: "Chievo")
-                        case "Crotone":
-                            // image.image = UIImage(named:"Crotone")
-                            changeImageWithAnimation(squadra: "Crotone")
-                        case "Empoli":
-                            // image.image = UIImage(named:"Empoli")
-                            changeImageWithAnimation(squadra: "Empoli")
-                        case "Fiorentina":
-                            // image.image = UIImage(named:"Fiorentina")
-                            changeImageWithAnimation(squadra: "Fiorentina")
-                        case "Genoa":
-                            // image.image = UIImage(named:"Genoa")
-                            changeImageWithAnimation(squadra: "Genoa")
-                        case "Inter":
-                            // image.image = UIImage(named:"Inter")
-                            changeImageWithAnimation(squadra: "Inter")
-                        case "Juventus":
-                            // image.image = UIImage(named:"Juventus")
-                            changeImageWithAnimation(squadra: "Juventus")
-                        case "Lazio":
-                            //image.image = UIImage(named:"Lazio")
-                            changeImageWithAnimation(squadra: "Lazio")
-                        case "Milan":
-                            // image.image = UIImage(named:"Milan")
-                            changeImageWithAnimation(squadra: "Milan")
-                        case "Napoli":
-                            // image.image = UIImage(named:"Napoli")
-                            changeImageWithAnimation(squadra: "Napoli")
-                        case "Palermo":
-                            // image.image = UIImage(named:"Palermo")
-                            changeImageWithAnimation(squadra: "Palermo")
-                        case "Roma":
-                            //  image.image = UIImage(named:"Roma")
-                            changeImageWithAnimation(squadra: "Roma")
-                        case "Sampdoria":
-                            //image.image = UIImage(named:"Sampdoria")
-                            changeImageWithAnimation(squadra: "Sampdoria")
-                        case "Sassuolo":
-                            // image.image = UIImage(named:"Sassuolo")
-                            changeImageWithAnimation(squadra: "Sassuolo")
-                        case "Torino":
-                            // image.image = UIImage(named:"Torino")
-                            changeImageWithAnimation(squadra: "Torino")
-                        case "Udinese":
-                            // image.image = UIImage(named:"Udinese")
-                            changeImageWithAnimation(squadra: "Udinese")
-                        default:
-                            // image.image = UIImage(named: "no_image")
-                            changeImageWithAnimation(squadra: "no_image")
-                        }
                         
                         self.star1.image = UIImage(named:"star")
                         self.view.bringSubview(toFront: star1);
@@ -286,66 +218,6 @@ class RandomPage: UIViewController{
                     self.randomQuotation.text = tempPlayer.quotation
                     self.randomName.text = tempPlayer.name
                     self.role = tempPlayer.role
-                    
-                    switch tempPlayer.team {
-                    case "Atalanta":
-                        //image.image = UIImage(named:"Atalanta")
-                        changeImageWithAnimation(squadra: "Atalanta")
-                    case "Cagliari":
-                        //image.image = UIImage(named:"Cagliari")
-                        changeImageWithAnimation(squadra: "Cagliari")
-                    case "Chievo":
-                        //image.image = UIImage(named:"Chievo")
-                        changeImageWithAnimation(squadra: "Chievo")
-                    case "Crotone":
-                        // image.image = UIImage(named:"Crotone")
-                        changeImageWithAnimation(squadra: "Crotone")
-                    case "Empoli":
-                        // image.image = UIImage(named:"Empoli")
-                        changeImageWithAnimation(squadra: "Empoli")
-                    case "Fiorentina":
-                        // image.image = UIImage(named:"Fiorentina")
-                        changeImageWithAnimation(squadra: "Fiorentina")
-                    case "Genoa":
-                        // image.image = UIImage(named:"Genoa")
-                        changeImageWithAnimation(squadra: "Genoa")
-                    case "Inter":
-                        // image.image = UIImage(named:"Inter")
-                        changeImageWithAnimation(squadra: "Inter")
-                    case "Juventus":
-                        // image.image = UIImage(named:"Juventus")
-                        changeImageWithAnimation(squadra: "Juventus")
-                    case "Lazio":
-                        //image.image = UIImage(named:"Lazio")
-                        changeImageWithAnimation(squadra: "Lazio")
-                    case "Milan":
-                        // image.image = UIImage(named:"Milan")
-                        changeImageWithAnimation(squadra: "Milan")
-                    case "Napoli":
-                        // image.image = UIImage(named:"Napoli")
-                        changeImageWithAnimation(squadra: "Napoli")
-                    case "Palermo":
-                        // image.image = UIImage(named:"Palermo")
-                        changeImageWithAnimation(squadra: "Palermo")
-                    case "Roma":
-                        //  image.image = UIImage(named:"Roma")
-                        changeImageWithAnimation(squadra: "Roma")
-                    case "Sampdoria":
-                        //image.image = UIImage(named:"Sampdoria")
-                        changeImageWithAnimation(squadra: "Sampdoria")
-                    case "Sassuolo":
-                        // image.image = UIImage(named:"Sassuolo")
-                        changeImageWithAnimation(squadra: "Sassuolo")
-                    case "Torino":
-                        // image.image = UIImage(named:"Torino")
-                        changeImageWithAnimation(squadra: "Torino")
-                    case "Udinese":
-                        // image.image = UIImage(named:"Udinese")
-                        changeImageWithAnimation(squadra: "Udinese")
-                    default:
-                        // image.image = UIImage(named: "no_image")
-                        changeImageWithAnimation(squadra: "no_image")
-                    }
                     
                     self.star1.image = UIImage(named:"star")
                     self.view.bringSubview(toFront: star1);
@@ -501,67 +373,6 @@ class RandomPage: UIViewController{
         self.randomQuotation.text = tempPlayer.quotation
         self.randomName.text = tempPlayer.name
         self.role = tempPlayer.role
-        
-        switch tempPlayer.team {
-        case "Atalanta":
-            //image.image = UIImage(named:"Atalanta")
-            changeImageWithAnimation(squadra: "Atalanta")
-        case "Cagliari":
-            //image.image = UIImage(named:"Cagliari")
-            changeImageWithAnimation(squadra: "Cagliari")
-        case "Chievo":
-            //image.image = UIImage(named:"Chievo")
-            changeImageWithAnimation(squadra: "Chievo")
-        case "Crotone":
-            // image.image = UIImage(named:"Crotone")
-            changeImageWithAnimation(squadra: "Crotone")
-        case "Empoli":
-            // image.image = UIImage(named:"Empoli")
-            changeImageWithAnimation(squadra: "Empoli")
-        case "Fiorentina":
-            // image.image = UIImage(named:"Fiorentina")
-            changeImageWithAnimation(squadra: "Fiorentina")
-        case "Genoa":
-            // image.image = UIImage(named:"Genoa")
-            changeImageWithAnimation(squadra: "Genoa")
-        case "Inter":
-            // image.image = UIImage(named:"Inter")
-            changeImageWithAnimation(squadra: "Inter")
-        case "Juventus":
-            // image.image = UIImage(named:"Juventus")
-            changeImageWithAnimation(squadra: "Juventus")
-        case "Lazio":
-            //image.image = UIImage(named:"Lazio")
-            changeImageWithAnimation(squadra: "Lazio")
-        case "Milan":
-            // image.image = UIImage(named:"Milan")
-            changeImageWithAnimation(squadra: "Milan")
-        case "Napoli":
-            // image.image = UIImage(named:"Napoli")
-            changeImageWithAnimation(squadra: "Napoli")
-        case "Palermo":
-            // image.image = UIImage(named:"Palermo")
-            changeImageWithAnimation(squadra: "Palermo")
-        case "Roma":
-            //  image.image = UIImage(named:"Roma")
-            changeImageWithAnimation(squadra: "Roma")
-        case "Sampdoria":
-            //image.image = UIImage(named:"Sampdoria")
-            changeImageWithAnimation(squadra: "Sampdoria")
-        case "Sassuolo":
-            // image.image = UIImage(named:"Sassuolo")
-            changeImageWithAnimation(squadra: "Sassuolo")
-        case "Torino":
-            // image.image = UIImage(named:"Torino")
-            changeImageWithAnimation(squadra: "Torino")
-        case "Udinese":
-            // image.image = UIImage(named:"Udinese")
-            changeImageWithAnimation(squadra: "Udinese")
-        default:
-            // image.image = UIImage(named: "no_image")
-            changeImageWithAnimation(squadra: "no_image")
-        }
-        
         self.star1.image = UIImage(named:"star")
         self.view.bringSubview(toFront: star1);
         let myNumber = Int(tempPlayer.quotation)
@@ -642,66 +453,6 @@ class RandomPage: UIViewController{
                 self.randomName.text = tempPlayer.name
                 self.role = tempPlayer.role
                 
-                switch tempPlayer.team {
-                case "Atalanta":
-                    //image.image = UIImage(named:"Atalanta")
-                    changeImageWithAnimation(squadra: "Atalanta")
-                case "Cagliari":
-                    //image.image = UIImage(named:"Cagliari")
-                    changeImageWithAnimation(squadra: "Cagliari")
-                case "Chievo":
-                    //image.image = UIImage(named:"Chievo")
-                    changeImageWithAnimation(squadra: "Chievo")
-                case "Crotone":
-                    // image.image = UIImage(named:"Crotone")
-                    changeImageWithAnimation(squadra: "Crotone")
-                case "Empoli":
-                    // image.image = UIImage(named:"Empoli")
-                    changeImageWithAnimation(squadra: "Empoli")
-                case "Fiorentina":
-                    // image.image = UIImage(named:"Fiorentina")
-                    changeImageWithAnimation(squadra: "Fiorentina")
-                case "Genoa":
-                    // image.image = UIImage(named:"Genoa")
-                    changeImageWithAnimation(squadra: "Genoa")
-                case "Inter":
-                    // image.image = UIImage(named:"Inter")
-                    changeImageWithAnimation(squadra: "Inter")
-                case "Juventus":
-                    // image.image = UIImage(named:"Juventus")
-                    changeImageWithAnimation(squadra: "Juventus")
-                case "Lazio":
-                    //image.image = UIImage(named:"Lazio")
-                    changeImageWithAnimation(squadra: "Lazio")
-                case "Milan":
-                    // image.image = UIImage(named:"Milan")
-                    changeImageWithAnimation(squadra: "Milan")
-                case "Napoli":
-                    // image.image = UIImage(named:"Napoli")
-                    changeImageWithAnimation(squadra: "Napoli")
-                case "Palermo":
-                    // image.image = UIImage(named:"Palermo")
-                    changeImageWithAnimation(squadra: "Palermo")
-                case "Roma":
-                    //  image.image = UIImage(named:"Roma")
-                    changeImageWithAnimation(squadra: "Roma")
-                case "Sampdoria":
-                    //image.image = UIImage(named:"Sampdoria")
-                    changeImageWithAnimation(squadra: "Sampdoria")
-                case "Sassuolo":
-                    // image.image = UIImage(named:"Sassuolo")
-                    changeImageWithAnimation(squadra: "Sassuolo")
-                case "Torino":
-                    // image.image = UIImage(named:"Torino")
-                    changeImageWithAnimation(squadra: "Torino")
-                case "Udinese":
-                    // image.image = UIImage(named:"Udinese")
-                    changeImageWithAnimation(squadra: "Udinese")
-                default:
-                    // image.image = UIImage(named: "no_image")
-                    changeImageWithAnimation(squadra: "no_image")
-                }
-                
                 self.star1.image = UIImage(named:"star")
                 self.view.bringSubview(toFront: star1);
                 let myNumber = Int(tempPlayer.quotation)
@@ -753,66 +504,6 @@ class RandomPage: UIViewController{
                 self.randomQuotation.text = tempPlayer.quotation
                 self.randomName.text = tempPlayer.name
                 self.role = tempPlayer.role
-                
-                switch tempPlayer.team {
-                case "Atalanta":
-                    //image.image = UIImage(named:"Atalanta")
-                    changeImageWithAnimation(squadra: "Atalanta")
-                case "Cagliari":
-                    //image.image = UIImage(named:"Cagliari")
-                    changeImageWithAnimation(squadra: "Cagliari")
-                case "Chievo":
-                    //image.image = UIImage(named:"Chievo")
-                    changeImageWithAnimation(squadra: "Chievo")
-                case "Crotone":
-                    // image.image = UIImage(named:"Crotone")
-                    changeImageWithAnimation(squadra: "Crotone")
-                case "Empoli":
-                    // image.image = UIImage(named:"Empoli")
-                    changeImageWithAnimation(squadra: "Empoli")
-                case "Fiorentina":
-                    // image.image = UIImage(named:"Fiorentina")
-                    changeImageWithAnimation(squadra: "Fiorentina")
-                case "Genoa":
-                    // image.image = UIImage(named:"Genoa")
-                    changeImageWithAnimation(squadra: "Genoa")
-                case "Inter":
-                    // image.image = UIImage(named:"Inter")
-                    changeImageWithAnimation(squadra: "Inter")
-                case "Juventus":
-                    // image.image = UIImage(named:"Juventus")
-                    changeImageWithAnimation(squadra: "Juventus")
-                case "Lazio":
-                    //image.image = UIImage(named:"Lazio")
-                    changeImageWithAnimation(squadra: "Lazio")
-                case "Milan":
-                    // image.image = UIImage(named:"Milan")
-                    changeImageWithAnimation(squadra: "Milan")
-                case "Napoli":
-                    // image.image = UIImage(named:"Napoli")
-                    changeImageWithAnimation(squadra: "Napoli")
-                case "Palermo":
-                    // image.image = UIImage(named:"Palermo")
-                    changeImageWithAnimation(squadra: "Palermo")
-                case "Roma":
-                    //  image.image = UIImage(named:"Roma")
-                    changeImageWithAnimation(squadra: "Roma")
-                case "Sampdoria":
-                    //image.image = UIImage(named:"Sampdoria")
-                    changeImageWithAnimation(squadra: "Sampdoria")
-                case "Sassuolo":
-                    // image.image = UIImage(named:"Sassuolo")
-                    changeImageWithAnimation(squadra: "Sassuolo")
-                case "Torino":
-                    // image.image = UIImage(named:"Torino")
-                    changeImageWithAnimation(squadra: "Torino")
-                case "Udinese":
-                    // image.image = UIImage(named:"Udinese")
-                    changeImageWithAnimation(squadra: "Udinese")
-                default:
-                    // image.image = UIImage(named: "no_image")
-                    changeImageWithAnimation(squadra: "no_image")
-                }
                 
                 self.star1.image = UIImage(named:"star")
                 self.view.bringSubview(toFront: star1);
@@ -872,66 +563,6 @@ class RandomPage: UIViewController{
                 self.randomQuotation.text = tempPlayer?.quotation
                 self.randomName.text = tempPlayer?.name
                 self.role = tempPlayer!.role
-                
-                switch tempPlayer!.team {
-                case "Atalanta":
-                    //image.image = UIImage(named:"Atalanta")
-                    changeImageWithAnimation(squadra: "Atalanta")
-                case "Cagliari":
-                    //image.image = UIImage(named:"Cagliari")
-                    changeImageWithAnimation(squadra: "Cagliari")
-                case "Chievo":
-                    //image.image = UIImage(named:"Chievo")
-                    changeImageWithAnimation(squadra: "Chievo")
-                case "Crotone":
-                    // image.image = UIImage(named:"Crotone")
-                    changeImageWithAnimation(squadra: "Crotone")
-                case "Empoli":
-                    // image.image = UIImage(named:"Empoli")
-                    changeImageWithAnimation(squadra: "Empoli")
-                case "Fiorentina":
-                    // image.image = UIImage(named:"Fiorentina")
-                    changeImageWithAnimation(squadra: "Fiorentina")
-                case "Genoa":
-                    // image.image = UIImage(named:"Genoa")
-                    changeImageWithAnimation(squadra: "Genoa")
-                case "Inter":
-                    // image.image = UIImage(named:"Inter")
-                    changeImageWithAnimation(squadra: "Inter")
-                case "Juventus":
-                    // image.image = UIImage(named:"Juventus")
-                    changeImageWithAnimation(squadra: "Juventus")
-                case "Lazio":
-                    //image.image = UIImage(named:"Lazio")
-                    changeImageWithAnimation(squadra: "Lazio")
-                case "Milan":
-                    // image.image = UIImage(named:"Milan")
-                    changeImageWithAnimation(squadra: "Milan")
-                case "Napoli":
-                    // image.image = UIImage(named:"Napoli")
-                    changeImageWithAnimation(squadra: "Napoli")
-                case "Palermo":
-                    // image.image = UIImage(named:"Palermo")
-                    changeImageWithAnimation(squadra: "Palermo")
-                case "Roma":
-                    //  image.image = UIImage(named:"Roma")
-                    changeImageWithAnimation(squadra: "Roma")
-                case "Sampdoria":
-                    //image.image = UIImage(named:"Sampdoria")
-                    changeImageWithAnimation(squadra: "Sampdoria")
-                case "Sassuolo":
-                    // image.image = UIImage(named:"Sassuolo")
-                    changeImageWithAnimation(squadra: "Sassuolo")
-                case "Torino":
-                    // image.image = UIImage(named:"Torino")
-                    changeImageWithAnimation(squadra: "Torino")
-                case "Udinese":
-                    // image.image = UIImage(named:"Udinese")
-                    changeImageWithAnimation(squadra: "Udinese")
-                default:
-                    // image.image = UIImage(named: "no_image")
-                    changeImageWithAnimation(squadra: "no_image")
-                }
                 
                 self.star1.image = UIImage(named:"star")
                 self.view.bringSubview(toFront: star1);
@@ -1090,66 +721,6 @@ class RandomPage: UIViewController{
                         self.randomName.text = lastPlayer?.name
                         self.role = lastPlayer!.role
                         
-                        switch lastPlayer!.team {
-                        case "Atalanta":
-                            //image.image = UIImage(named:"Atalanta")
-                            changeImageWithAnimation(squadra: "Atalanta")
-                        case "Cagliari":
-                            //image.image = UIImage(named:"Cagliari")
-                            changeImageWithAnimation(squadra: "Cagliari")
-                        case "Chievo":
-                            //image.image = UIImage(named:"Chievo")
-                            changeImageWithAnimation(squadra: "Chievo")
-                        case "Crotone":
-                            // image.image = UIImage(named:"Crotone")
-                            changeImageWithAnimation(squadra: "Crotone")
-                        case "Empoli":
-                            // image.image = UIImage(named:"Empoli")
-                            changeImageWithAnimation(squadra: "Empoli")
-                        case "Fiorentina":
-                            // image.image = UIImage(named:"Fiorentina")
-                            changeImageWithAnimation(squadra: "Fiorentina")
-                        case "Genoa":
-                            // image.image = UIImage(named:"Genoa")
-                            changeImageWithAnimation(squadra: "Genoa")
-                        case "Inter":
-                            // image.image = UIImage(named:"Inter")
-                            changeImageWithAnimation(squadra: "Inter")
-                        case "Juventus":
-                            // image.image = UIImage(named:"Juventus")
-                            changeImageWithAnimation(squadra: "Juventus")
-                        case "Lazio":
-                            //image.image = UIImage(named:"Lazio")
-                            changeImageWithAnimation(squadra: "Lazio")
-                        case "Milan":
-                            // image.image = UIImage(named:"Milan")
-                            changeImageWithAnimation(squadra: "Milan")
-                        case "Napoli":
-                            // image.image = UIImage(named:"Napoli")
-                            changeImageWithAnimation(squadra: "Napoli")
-                        case "Palermo":
-                            // image.image = UIImage(named:"Palermo")
-                            changeImageWithAnimation(squadra: "Palermo")
-                        case "Roma":
-                            //  image.image = UIImage(named:"Roma")
-                            changeImageWithAnimation(squadra: "Roma")
-                        case "Sampdoria":
-                            //image.image = UIImage(named:"Sampdoria")
-                            changeImageWithAnimation(squadra: "Sampdoria")
-                        case "Sassuolo":
-                            // image.image = UIImage(named:"Sassuolo")
-                            changeImageWithAnimation(squadra: "Sassuolo")
-                        case "Torino":
-                            // image.image = UIImage(named:"Torino")
-                            changeImageWithAnimation(squadra: "Torino")
-                        case "Udinese":
-                            // image.image = UIImage(named:"Udinese")
-                            changeImageWithAnimation(squadra: "Udinese")
-                        default:
-                            // image.image = UIImage(named: "no_image")
-                            changeImageWithAnimation(squadra: "no_image")
-                        }
-                        
                         self.star1.image = UIImage(named:"star")
                         self.view.bringSubview(toFront: star1);
                         let myNumber = Int(lastPlayer!.quotation)
@@ -1200,14 +771,6 @@ class RandomPage: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         appear()
-    }
-    
-    func changeImageWithAnimation(squadra:String){
-        UIView.transition(with: image,
-                          duration: 0.2,
-                          options: .transitionCrossDissolve,
-                          animations: { self.image.image = UIImage(named:squadra) },
-                          completion: nil)
     }
     
     func changeCardWithAnimation(giocatore:Player){
